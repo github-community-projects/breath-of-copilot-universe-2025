@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hyrule Monster Database - Legend of Zelda</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="triforce-bg"></div>
+    
+    <header>
+        <h1>🗡️ Hyrule Monster Database 🛡️</h1>
+        <p class="subtitle">Explore the dark creatures of Hyrule Kingdom</p>
+    </header>
+
+    <nav>
+        <div class="nav-container">
+            <button id="showAll" class="nav-btn active">All Monsters</button>
+            <button id="showBosses" class="nav-btn">Boss Monsters</button>
+            <button id="showSearch" class="nav-btn">Search Database</button>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Search Section (Hidden by default) -->
+        <section id="searchSection" class="hidden">
+            <div class="search-container">
+                <h2>🔍 Monster Search</h2>
+                <form id="searchForm">
+                    <input type="text" id="searchQuery" placeholder="Enter monster name..." required>
+                    <button type="submit">Search Monsters</button>
+                </form>
+                <div id="searchResults"></div>
+            </div>
+        </section>
+
+        <!-- Monster Gallery -->
+        <section id="monsterGallery">
+            <div class="monsters-grid">
+                <div class="monster-card boss" data-type="boss">
+                    <div class="monster-image">👹</div>
+                    <h3>Ganondorf</h3>
+                    <p class="monster-type">Boss Monster</p>
+                    <p>The King of Darkness himself. His power corrupts all of Hyrule.</p>
+                    <div class="monster-stats">
+                        <span>⚡ Power: 100</span>
+                        <span>🛡️ Defense: 95</span>
+                    </div>
+                </div>
+
+                <div class="monster-card boss" data-type="boss">
+                    <div class="monster-image">🐲</div>
+                    <h3>Dark Link</h3>
+                    <p class="monster-type">Shadow Boss</p>
+                    <p>Link's dark reflection, born from shadow and malice.</p>
+                    <div class="monster-stats">
+                        <span>⚡ Power: 90</span>
+                        <span>🛡️ Defense: 85</span>
+                    </div>
+                </div>
+
+                <div class="monster-card" data-type="normal">
+                    <div class="monster-image">👺</div>
+                    <h3>Lynel</h3>
+                    <p class="monster-type">Elite Monster</p>
+                    <p>Centaur-like beasts with incredible strength and magical prowess.</p>
+                    <div class="monster-stats">
+                        <span>⚡ Power: 80</span>
+                        <span>🛡️ Defense: 75</span>
+                    </div>
+                </div>
+
+                <div class="monster-card" data-type="normal">
+                    <div class="monster-image">🧟</div>
+                    <h3>Bokoblin</h3>
+                    <p class="monster-type">Common Monster</p>
+                    <p>Pig-faced creatures that serve Ganon with crude weapons.</p>
+                    <div class="monster-stats">
+                        <span>⚡ Power: 25</span>
+                        <span>🛡️ Defense: 20</span>
+                    </div>
+                </div>
+
+                <div class="monster-card" data-type="normal">
+                    <div class="monster-image">🕷️</div>
+                    <h3>Skulltula</h3>
+                    <p class="monster-type">Arachnid Monster</p>
+                    <p>Giant spiders that lurk in dark corners and abandoned places.</p>
+                    <div class="monster-stats">
+                        <span>⚡ Power: 35</span>
+                        <span>🛡️ Defense: 15</span>
+                    </div>
+                </div>
+
+                <div class="monster-card boss" data-type="boss">
+                    <div class="monster-image">🐉</div>
+                    <h3>King Dodongo</h3>
+                    <p class="monster-type">Fire Boss</p>
+                    <p>A massive dinosaur-like creature that breathes fire and swallows bombs.</p>
+                    <div class="monster-stats">
+                        <span>⚡ Power: 70</span>
+                        <span>🛡️ Defense: 80</span>
+                    </div>
+                </div>
+
+                <div class="monster-card" data-type="normal">
+                    <div class="monster-image">👻</div>
+                    <h3>Poe</h3>
+                    <p class="monster-type">Ghost Monster</p>
+                    <p>Ghostly spirits that carry lanterns and hunt in the darkness.</p>
+                    <div class="monster-stats">
+                        <span>⚡ Power: 40</span>
+                        <span>🛡️ Defense: 10</span>
+                    </div>
+                </div>
+
+                <div class="monster-card" data-type="normal">
+                    <div class="monster-image">🦇</div>
+                    <h3>Keese</h3>
+                    <p class="monster-type">Flying Monster</p>
+                    <p>Demonic bats that swarm in caves and attack in groups.</p>
+                    <div class="monster-stats">
+                        <span>⚡ Power: 15</span>
+                        <span>🛡️ Defense: 5</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>⚠️ Warning: This database contains intentional security vulnerabilities for educational purposes ⚠️</p>
+        <p>© 2025 Hyrule Monster Database - Power, Wisdom, Courage</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
