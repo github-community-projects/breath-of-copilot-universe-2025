@@ -41,7 +41,7 @@ function initializeDatabase() {
                 
                 const monsters = [
                     ['Ganondorf', 'Boss Monster', 'The King of Darkness himself. His power corrupts all of Hyrule.', 100, 95, '👹'],
-                    ['Dark Link', 'Shadow Boss', 'Link\'s dark reflection, born from shadow and malice.', 90, 85, '🐲'],
+                    ['Dark Link', 'Shadow Boss', 'Link\'s dark reflection, born from shadow and malice.', 90, 85, '🔗'],
                     ['Lynel', 'Elite Monster', 'Centaur-like beasts with incredible strength and magical prowess.', 80, 75, '👺'],
                     ['King Dodongo', 'Fire Boss', 'A massive dinosaur-like creature that breathes fire and swallows bombs.', 70, 80, '🐉'],
                     ['Poe', 'Ghost Monster', 'Ghostly spirits that carry lanterns and hunt in the darkness.', 40, 10, '👻'],
