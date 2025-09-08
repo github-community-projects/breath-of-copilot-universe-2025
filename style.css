@@ -1,0 +1,344 @@
+/* Legend of Zelda Dark Theme CSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Georgia', serif;
+    background: linear-gradient(135deg, #1a0f2e 0%, #2d1b3d 50%, #0f0f1e 100%);
+    color: #f4e4c1;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Triforce Background Pattern */
+.triforce-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.05;
+    background-image: 
+        radial-gradient(circle at 25% 25%, #ffd700 2px, transparent 2px),
+        radial-gradient(circle at 75% 75%, #ffd700 2px, transparent 2px);
+    background-size: 100px 100px;
+    z-index: -1;
+    animation: float 20s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-10px) rotate(1deg); }
+}
+
+/* Header */
+header {
+    text-align: center;
+    padding: 2rem 1rem;
+    background: linear-gradient(45deg, #1a0f2e, #3a2a4e);
+    border-bottom: 3px solid #ffd700;
+    box-shadow: 0 4px 20px rgba(255, 215, 0, 0.3);
+}
+
+header h1 {
+    font-size: 3rem;
+    color: #ffd700;
+    text-shadow: 
+        2px 2px 4px #000,
+        0 0 20px #ffd700;
+    margin-bottom: 0.5rem;
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+    from { text-shadow: 2px 2px 4px #000, 0 0 20px #ffd700; }
+    to { text-shadow: 2px 2px 4px #000, 0 0 30px #ffd700, 0 0 40px #ffd700; }
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: #c9b037;
+    font-style: italic;
+}
+
+/* Navigation */
+nav {
+    background: #2d1b3d;
+    padding: 1rem 0;
+    border-bottom: 2px solid #4a3c5c;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.nav-btn {
+    background: linear-gradient(45deg, #4a3c5c, #6b5b73);
+    color: #f4e4c1;
+    border: 2px solid #ffd700;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    text-shadow: 1px 1px 2px #000;
+}
+
+.nav-btn:hover {
+    background: linear-gradient(45deg, #6b5b73, #8a7a93);
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+    transform: translateY(-2px);
+}
+
+.nav-btn.active {
+    background: linear-gradient(45deg, #ffd700, #e6c200);
+    color: #1a0f2e;
+    text-shadow: none;
+}
+
+/* Main Content */
+main {
+    padding: 2rem 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Search Section */
+#searchSection {
+    margin-bottom: 2rem;
+}
+
+.search-container {
+    background: linear-gradient(135deg, #2d1b3d, #4a3c5c);
+    padding: 2rem;
+    border-radius: 15px;
+    border: 2px solid #ffd700;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+}
+
+.search-container h2 {
+    color: #ffd700;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-size: 1.8rem;
+}
+
+#searchForm {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+#searchQuery {
+    flex: 1;
+    padding: 0.75rem;
+    border: 2px solid #6b5b73;
+    border-radius: 8px;
+    background: #1a0f2e;
+    color: #f4e4c1;
+    font-size: 1rem;
+    min-width: 200px;
+}
+
+#searchQuery:focus {
+    outline: none;
+    border-color: #ffd700;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+#searchForm button {
+    background: linear-gradient(45deg, #c9302c, #e74c3c);
+    color: white;
+    border: 2px solid #a02622;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+#searchForm button:hover {
+    background: linear-gradient(45deg, #e74c3c, #c9302c);
+    box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4);
+}
+
+/* Monster Gallery */
+.monsters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 1rem 0;
+}
+
+.monster-card {
+    background: linear-gradient(135deg, #2d1b3d, #4a3c5c);
+    border: 2px solid #6b5b73;
+    border-radius: 15px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.monster-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+    border-color: #ffd700;
+}
+
+.monster-card.boss {
+    border: 3px solid #c9302c;
+    background: linear-gradient(135deg, #3d1b2d, #5c3c4a);
+}
+
+.monster-card.boss::before {
+    content: "👑";
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 1.5rem;
+}
+
+.monster-image {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
+    animation: pulse 3s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.monster-card h3 {
+    color: #ffd700;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 4px #000;
+}
+
+.monster-type {
+    color: #c9b037;
+    font-weight: bold;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.monster-card p:not(.monster-type) {
+    color: #f4e4c1;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+
+.monster-stats {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #6b5b73;
+}
+
+.monster-stats span {
+    background: linear-gradient(45deg, #1a0f2e, #2d1b3d);
+    padding: 0.5rem;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    border: 1px solid #4a3c5c;
+}
+
+/* Search Results */
+#searchResults {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #1a0f2e;
+    border-radius: 8px;
+    border: 1px solid #4a3c5c;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.search-result {
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+    background: #2d1b3d;
+    border-radius: 5px;
+    border-left: 4px solid #ffd700;
+}
+
+/* Utility Classes */
+.hidden {
+    display: none !important;
+}
+
+.error {
+    color: #e74c3c;
+    background: #3d1b2d;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 2px solid #c9302c;
+    margin: 1rem 0;
+    text-align: center;
+}
+
+/* Footer */
+footer {
+    background: #1a0f2e;
+    border-top: 3px solid #ffd700;
+    padding: 2rem 1rem;
+    text-align: center;
+    margin-top: 3rem;
+}
+
+footer p {
+    margin-bottom: 0.5rem;
+    color: #c9b037;
+}
+
+footer p:first-child {
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    .monsters-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .nav-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .nav-btn {
+        width: 200px;
+    }
+    
+    #searchForm {
+        flex-direction: column;
+    }
+    
+    #searchQuery {
+        min-width: auto;
+    }
+}
