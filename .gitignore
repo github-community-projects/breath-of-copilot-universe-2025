@@ -1,3 +1,6 @@
+# Build output
+dist/
+
 # Dependencies
 node_modules/
 npm-debug.log*
@@ -42,3 +45,7 @@ coverage/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp

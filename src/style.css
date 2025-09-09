@@ -293,7 +293,51 @@ main {
     border-radius: 8px;
     border: 2px solid #c9302c;
     margin: 1rem 0;
-    text-align: center;
+    text-align: left;
+}
+
+/* Vulnerability demonstration styles */
+.vulnerability-demo {
+    background: #2d1b1d;
+    border: 1px solid #c9302c;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+}
+
+.vulnerability-demo h4 {
+    color: #ffd700;
+    margin: 1rem 0 0.5rem 0;
+}
+
+.vulnerability-demo ul {
+    margin-left: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.vulnerability-demo li {
+    margin-bottom: 0.3rem;
+    color: #f4e4c1;
+}
+
+.debug-info {
+    background: #1a0f2e;
+    border: 1px solid #4a3c5c;
+    border-radius: 5px;
+    padding: 0.5rem;
+    margin-top: 1rem;
+    font-family: monospace;
+    color: #c9b037;
+}
+
+.search-result code {
+    background: #1a0f2e;
+    padding: 0.2rem 0.4rem;
+    border-radius: 3px;
+    font-family: monospace;
+    color: #e74c3c;
+    border: 1px solid #4a3c5c;
 }
 
 /* Footer */

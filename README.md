@@ -1,6 +1,6 @@
 # 🗡️ Legend of Zelda Monster Database ⚔️
 
-A demo web application featuring the dark creatures of Hyrule Kingdom, built for educational purposes to demonstrate common web security vulnerabilities.
+A demo web application featuring the dark creatures of Hyrule Kingdom, built for educational purposes to demonstrate common web security vulnerabilities. **Now deployed as a static site to GitHub Pages!**
 
 ## 🎯 Features
 
@@ -8,7 +8,8 @@ A demo web application featuring the dark creatures of Hyrule Kingdom, built for
 - **Interactive monster gallery** with boss monsters and regular creatures
 - **Search functionality** to find specific monsters
 - **Intentional security vulnerabilities** for educational purposes
-- **ASCII art deployment script** featuring Dark Link
+- **Modern static deployment** via GitHub Actions to GitHub Pages
+- **Responsive design** that works on desktop and mobile
 
 ## ⚠️ Security Warnings
 
@@ -16,78 +17,98 @@ A demo web application featuring the dark creatures of Hyrule Kingdom, built for
 
 This demo includes the following vulnerabilities for educational purposes:
 
-### 1. SQL Injection
-- **Location**: `/api/search` and `/api/monster/:id` endpoints
-- **Issue**: User input directly concatenated into SQL queries
-- **Impact**: Database manipulation, data theft, data destruction
+### 1. Simulated SQL Injection
+- **Location**: Search functionality with educational responses
+- **Issue**: Demonstrates how SQL injection attacks work
+- **Impact**: Shows database manipulation possibilities
 - **Example Attacks**:
   - `'; DROP TABLE monsters; --` 
   - `' OR '1'='1`
 
 ### 2. Cross-Site Scripting (XSS)
 - **Location**: Search results display in frontend
-- **Issue**: Unsanitized server data inserted directly into DOM
-- **Impact**: Session hijacking, malicious script execution
+- **Issue**: Unsanitized data inserted directly into DOM
+- **Impact**: Potential for malicious script execution
+- **Example**: Try searching for `<script>alert('XSS')</script>`
 
 ### 3. Information Disclosure
-- **Location**: Error messages and `/api/debug` endpoint
-- **Issue**: Detailed error messages and system information exposed
+- **Location**: Debug functions and error messages
+- **Issue**: System information exposed to users
 - **Impact**: Assists attackers in reconnaissance
+- **Access**: Run `debugMonsterDB()` in browser console
 
 **DO NOT USE IN PRODUCTION ENVIRONMENTS**
 
 ## 🏰 Quick Start
 
 ### Prerequisites
-- Node.js (v14 or higher)
-- npm
+- Modern web browser
+- Git (for development)
 
-### Installation & Deployment
+### View the Live Demo
+Visit the deployed application at: **[GitHub Pages Link](https://githubcustomers.github.io/mbianchidev-eficode-universe-2025/)**
 
-1. **Clone and navigate to the repository**:
+### Local Development
+
+1. **Clone the repository**:
    ```bash
    git clone <repository-url>
    cd mbianchidev-eficode-universe-2025
    ```
 
-2. **Run the deployment script**:
+2. **Build the static site**:
    ```bash
-   ./deploy.sh
+   ./build.sh
    ```
 
-3. **Open your browser** and visit:
-   ```
-   http://localhost:3000
+3. **Serve locally** (choose one method):
+   ```bash
+   # Using Python 3
+   cd dist && python3 -m http.server 8000
+   
+   # Using Python 2
+   cd dist && python -m SimpleHTTPServer 8000
+   
+   # Using npm script
+   npm run serve
    ```
 
-The deployment script will:
-- Show an ASCII art of Dark Link 🐲
-- Install dependencies
-- Verify all required files
-- Display security warnings
-- Start the server on localhost:3000
+4. **Open your browser** and visit:
+   ```
+   http://localhost:8000
+   ```
+
+### Development Mode
+For development, you can serve directly from the src directory:
+```bash
+npm run dev
+```
+Then visit: `http://localhost:3000`
 
 ## 🎮 How to Use
 
 ### Navigation
 - **All Monsters**: View all creatures in the database
 - **Boss Monsters**: Filter to show only boss-level creatures
-- **Search Database**: Search for specific monsters (vulnerable endpoint)
+- **Search Database**: Search for specific monsters (with vulnerability demos)
 
 ### Testing Vulnerabilities
 
 1. **SQL Injection Testing**:
    - Go to Search Database
-   - Try these payloads:
+   - Try these educational payloads:
      - `'; DROP TABLE monsters; --`
      - `' OR '1'='1`
-   - Visit: `http://localhost:3000/api/monster/1' OR '1'='1 --`
+   - The system will show what these attacks would do in a real database
 
-2. **Debug Information**:
-   - Visit: `http://localhost:3000/api/debug`
+2. **XSS Testing**:
+   - Try searching for: `<script>alert('XSS')</script>`
+   - The app demonstrates how XSS vulnerabilities work
 
-3. **XSS Testing**:
-   - If SQL injection succeeds, malicious scripts could be stored and executed
+3. **Debug Information**:
+   - Open browser developer console
+   - Run: `debugMonsterDB()`
+   - Observe the information disclosure
 
 ### Easter Eggs
 - Try the **Konami Code**: ↑↑↓↓←→←→BA
@@ -97,66 +118,110 @@ The deployment script will:
 ## 🗂️ File Structure
 
 ```
-├── index.html          # Main web page
-├── style.css           # Zelda-themed styling
-├── script.js           # Frontend JavaScript (contains XSS vulnerabilities)
-├── server.js           # Node.js backend (contains SQL injection vulnerabilities)
-├── package.json        # Dependencies
-├── deploy.sh           # Build & deploy script with Dark Link ASCII art
-├── monsters.db         # SQLite database (generated automatically)
-└── README.md           # This file
+├── src/                 # Source files
+│   ├── index.html       # Main web page
+│   ├── style.css        # Zelda-themed styling
+│   ├── script.js        # Frontend JavaScript (contains vulnerabilities)
+│   └── monsters.json    # Monster database (JSON format)
+├── dist/                # Built static files (generated)
+├── .github/workflows/   # GitHub Actions for deployment
+│   └── deploy.yml       # Build and deploy workflow
+├── build.sh             # Build script for static site generation
+├── package.json         # Dependencies and scripts
+└── README.md            # This file
 ```
+
+## 🚀 Deployment
+
+This application uses **GitHub Actions** to automatically build and deploy to **GitHub Pages** whenever changes are pushed to the main branch.
+
+### Automated Deployment
+- Push changes to the `main` branch
+- GitHub Actions automatically runs the build process
+- Static files are generated and deployed to GitHub Pages
+- Live site is updated within minutes
+
+### Manual Deployment
+If you want to deploy to your own static hosting:
+1. Run `./build.sh` to generate static files
+2. Upload the contents of the `dist/` folder to your web server
+3. Ensure your server can serve static files (HTML, CSS, JS, JSON)
 
 ## 🛠️ Technical Details
 
-### Backend (Node.js + Express)
-- SQLite database with monster information
-- Vulnerable search endpoints
-- Debug information exposure
-- Detailed error message disclosure
+### Static Architecture
+- **No Backend Server Required**: Pure client-side application
+- **JSON Data Store**: Monster information stored in static JSON file
+- **Simulated Vulnerabilities**: Educational demonstrations of security issues
+- **GitHub Pages Compatible**: Fully static deployment
 
-### Frontend (HTML + CSS + JavaScript)
-- Responsive Zelda-themed design
-- Interactive monster cards
-- Vulnerable search results display
-- Konami code easter egg
+### Vulnerability Simulations
+- **SQL Injection Demos**: Shows attack patterns and explains impact
+- **XSS Vulnerabilities**: Real DOM manipulation risks
+- **Info Disclosure**: Debug functions expose system information
+- **Client-side Security**: Demonstrates frontend security considerations
 
 ### Vulnerabilities Summary
 
 | Vulnerability | Location | Severity | Educational Value |
 |---------------|----------|----------|-------------------|
-| SQL Injection | Backend endpoints | Critical | High - Shows parameter injection risks |
+| Simulated SQL Injection | Search function | Critical | High - Shows parameter injection risks |
 | XSS | Frontend search display | High | High - Shows DOM manipulation risks |
-| Info Disclosure | Error messages | Medium | Medium - Shows information leakage |
-| Debug Endpoints | /api/debug | Medium | Medium - Shows development oversight risks |
+| Info Disclosure | Console debug functions | Medium | Medium - Shows information leakage |
+| Client-side Exposure | JSON data accessible | Low | Medium - Shows client-side security risks |
 
 ## 🎓 Educational Purpose
 
 This application demonstrates:
-- Common web application vulnerabilities
-- How SQL injection attacks work
-- XSS attack vectors
+- Common web application vulnerabilities in a safe environment
+- How SQL injection attacks work (simulated)
+- XSS attack vectors through DOM manipulation
 - Information disclosure risks
-- Secure coding practices (by showing what NOT to do)
+- Client-side security considerations
+- Modern static site deployment practices
 
 ## 🛡️ How to Fix These Vulnerabilities
 
 1. **SQL Injection**: Use parameterized queries
    ```javascript
+   // Instead of: `SELECT * FROM monsters WHERE name LIKE '%${query}%'`
    db.all("SELECT * FROM monsters WHERE name LIKE ?", [`%${query}%`], callback)
    ```
 
-2. **XSS**: Sanitize all user input and server responses
+2. **XSS**: Sanitize all user input and escape output
    ```javascript
-   const sanitizedData = escapeHtml(serverResponse);
+   // Instead of: element.innerHTML = userInput
+   element.textContent = userInput; // or use proper HTML escaping
    ```
 
 3. **Information Disclosure**: Use generic error messages
    ```javascript
+   // Instead of: res.json({ error: err.message })
    res.status(500).json({ error: "Internal server error" });
    ```
 
-4. **Remove Debug Endpoints**: Don't expose system information in production
+4. **Client-side Security**: 
+   - Validate data on both client and server
+   - Don't expose sensitive information in client code
+   - Use HTTPS in production
+   - Implement Content Security Policy (CSP)
+
+## 🔄 Migration from Node.js to Static
+
+This project was migrated from a Node.js/Express backend to a static site:
+
+### What Changed
+- ✅ **Removed**: Node.js server, SQLite database, bash deployment script
+- ✅ **Added**: Static JSON data file, GitHub Actions workflow, build script
+- ✅ **Maintained**: All educational vulnerabilities and Zelda theming
+- ✅ **Improved**: Faster loading, better scalability, easier deployment
+
+### Why Static?
+- **GitHub Pages Compatible**: Free hosting with automatic deployment
+- **Better Performance**: No server processing, just static file serving
+- **Easier Maintenance**: No database or server to manage
+- **Educational Focus**: Vulnerability demonstrations work just as well
+- **Modern Approach**: Follows current web development trends
 
 ## 📝 License
 

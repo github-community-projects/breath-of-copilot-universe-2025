@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hyrule Monster Database - Legend of Zelda</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="triforce-bg"></div>
+    
+    <header>
+        <h1>🗡️ Hyrule Monster Database 🛡️</h1>
+        <p class="subtitle">Explore the dark creatures of Hyrule Kingdom</p>
+    </header>
+
+    <nav>
+        <div class="nav-container">
+            <button id="showAll" class="nav-btn active">All Monsters</button>
+            <button id="showBosses" class="nav-btn">Boss Monsters</button>
+            <button id="showSearch" class="nav-btn">Search Database</button>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Search Section (Hidden by default) -->
+        <section id="searchSection" class="hidden">
+            <div class="search-container">
+                <h2>🔍 Monster Search</h2>
+                <form id="searchForm">
+                    <input type="text" id="searchQuery" placeholder="Enter monster name or try: '; DROP TABLE monsters; --" required>
+                    <button type="submit">Search Monsters</button>
+                </form>
+                <div id="searchResults"></div>
+            </div>
+        </section>
+
+        <!-- Monster Gallery -->
+        <section id="monsterGallery">
+            <div class="monsters-grid" id="monstersGrid">
+                <!-- Monsters will be loaded dynamically by JavaScript -->
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
