@@ -1,175 +1,130 @@
 # 🗡️ Legend of Zelda Monster Database ⚔️
 
-A demo web application featuring the dark creatures of Hyrule Kingdom, built for educational purposes to demonstrate common web security vulnerabilities.
+A static web application featuring the dark creatures of Hyrule Kingdom. This modernized version deploys automatically to GitHub Pages using GitHub Actions.
 
 ## 🎯 Features
 
 - **Legend of Zelda themed interface** with dark, monster-filled design
-- **Interactive monster gallery** with boss monsters and regular creatures
-- **Search functionality** to find specific monsters
-- **Intentional security vulnerabilities** for educational purposes
-- **ASCII art deployment script** featuring Dark Link
+- **Interactive monster gallery** with boss monsters and regular creatures  
+- **Client-side search functionality** to find specific monsters
+- **Static deployment** - runs entirely in the browser
+- **Automatic GitHub Pages deployment** via GitHub Actions
+- **Responsive design** that works on all devices
 
-## ⚠️ Security Warnings
+## 🚀 Deployment
 
-**🚨 THIS APPLICATION CONTAINS INTENTIONAL VULNERABILITIES 🚨**
+This application automatically deploys to GitHub Pages when changes are pushed to the main branch.
 
-This demo includes the following vulnerabilities for educational purposes:
+### Live Demo
+Visit the deployed application: `https://githubcustomers.github.io/mbianchidev-eficode-universe-2025/`
 
-### 1. SQL Injection
-- **Location**: `/api/search` and `/api/monster/:id` endpoints
-- **Issue**: User input directly concatenated into SQL queries
-- **Impact**: Database manipulation, data theft, data destruction
-- **Example Attacks**:
-  - `'; DROP TABLE monsters; --` 
-  - `' OR '1'='1`
+### How it works
+1. Code is pushed to the `main` branch
+2. GitHub Actions workflow triggers automatically  
+3. Static files from the `src/` directory are deployed to GitHub Pages
+4. Application is available at the GitHub Pages URL
 
-### 2. Cross-Site Scripting (XSS)
-- **Location**: Search results display in frontend
-- **Issue**: Unsanitized server data inserted directly into DOM
-- **Impact**: Session hijacking, malicious script execution
+## 🏗️ Architecture
 
-### 3. Information Disclosure
-- **Location**: Error messages and `/api/debug` endpoint
-- **Issue**: Detailed error messages and system information exposed
-- **Impact**: Assists attackers in reconnaissance
+This is a **static web application** that runs entirely client-side:
+- **No server required** - all functionality runs in the browser
+- **Static monster database** - hardcoded data for fast performance
+- **Client-side search** - JavaScript-based filtering and search
+- **GitHub Pages compatible** - pure HTML/CSS/JavaScript
 
-**DO NOT USE IN PRODUCTION ENVIRONMENTS**
+## 🗂️ File Structure
 
-## 🏰 Quick Start
-
-### Prerequisites
-- Node.js (v14 or higher)
-- npm
-
-### Installation & Deployment
-
-1. **Clone and navigate to the repository**:
-   ```bash
-   git clone <repository-url>
-   cd mbianchidev-eficode-universe-2025
-   ```
-
-2. **Run the deployment script**:
-   ```bash
-   ./deploy.sh
-   ```
-
-3. **Open your browser** and visit:
-   ```
-   http://localhost:3000
-   ```
-
-The deployment script will:
-- Show an ASCII art of Dark Link 🐲
-- Install dependencies
-- Verify all required files
-- Display security warnings
-- Start the server on localhost:3000
+```
+├── src/
+│   ├── index.html          # Main web page
+│   ├── style.css           # Zelda-themed styling  
+│   └── script.js           # Client-side JavaScript
+├── .github/
+│   └── workflows/
+│       └── deploy.yml      # GitHub Actions deployment workflow
+├── package.json            # Legacy dependencies (not used in static version)
+├── server.js               # Legacy server (not used in static version)  
+└── README.md               # This file
+```
 
 ## 🎮 How to Use
 
 ### Navigation
 - **All Monsters**: View all creatures in the database
 - **Boss Monsters**: Filter to show only boss-level creatures
-- **Search Database**: Search for specific monsters (vulnerable endpoint)
+- **Search Database**: Search for specific monsters by name, type, or description
 
-### Testing Vulnerabilities
-
-1. **SQL Injection Testing**:
-   - Go to Search Database
-   - Try these payloads:
-     - `'; DROP TABLE monsters; --`
-     - `' OR '1'='1`
-   - Visit: `http://localhost:3000/api/monster/1' OR '1'='1 --`
-
-2. **Debug Information**:
-   - Visit: `http://localhost:3000/api/debug`
-
-3. **XSS Testing**:
-   - If SQL injection succeeds, malicious scripts could be stored and executed
+### Search Features
+- Type any monster name (e.g., "Ganondorf", "Dark Link")
+- Search by type (e.g., "Boss", "Ghost")
+- Search by description keywords
+- Instant client-side filtering
 
 ### Easter Eggs
 - Try the **Konami Code**: ↑↑↓↓←→←→BA
 - Click on monster cards for details
 - Watch for floating triforce elements
 
-## 🗂️ File Structure
+## 🛠️ Local Development
 
-```
-├── index.html          # Main web page
-├── style.css           # Zelda-themed styling
-├── script.js           # Frontend JavaScript (contains XSS vulnerabilities)
-├── server.js           # Node.js backend (contains SQL injection vulnerabilities)
-├── package.json        # Dependencies
-├── deploy.sh           # Build & deploy script with Dark Link ASCII art
-├── monsters.db         # SQLite database (generated automatically)
-└── README.md           # This file
-```
+To run locally for development:
 
-## 🛠️ Technical Details
-
-### Backend (Node.js + Express)
-- SQLite database with monster information
-- Vulnerable search endpoints
-- Debug information exposure
-- Detailed error message disclosure
-
-### Frontend (HTML + CSS + JavaScript)
-- Responsive Zelda-themed design
-- Interactive monster cards
-- Vulnerable search results display
-- Konami code easter egg
-
-### Vulnerabilities Summary
-
-| Vulnerability | Location | Severity | Educational Value |
-|---------------|----------|----------|-------------------|
-| SQL Injection | Backend endpoints | Critical | High - Shows parameter injection risks |
-| XSS | Frontend search display | High | High - Shows DOM manipulation risks |
-| Info Disclosure | Error messages | Medium | Medium - Shows information leakage |
-| Debug Endpoints | /api/debug | Medium | Medium - Shows development oversight risks |
-
-## 🎓 Educational Purpose
-
-This application demonstrates:
-- Common web application vulnerabilities
-- How SQL injection attacks work
-- XSS attack vectors
-- Information disclosure risks
-- Secure coding practices (by showing what NOT to do)
-
-## 🛡️ How to Fix These Vulnerabilities
-
-1. **SQL Injection**: Use parameterized queries
-   ```javascript
-   db.all("SELECT * FROM monsters WHERE name LIKE ?", [`%${query}%`], callback)
+1. **Clone the repository**:
+   ```bash
+   git clone <repository-url>
+   cd mbianchidev-eficode-universe-2025
    ```
 
-2. **XSS**: Sanitize all user input and server responses
-   ```javascript
-   const sanitizedData = escapeHtml(serverResponse);
+2. **Serve the static files**:
+   ```bash
+   cd src
+   python3 -m http.server 8080
+   # Or use any static file server
    ```
 
-3. **Information Disclosure**: Use generic error messages
-   ```javascript
-   res.status(500).json({ error: "Internal server error" });
+3. **Open your browser** and visit:
+   ```
+   http://localhost:8080
    ```
 
-4. **Remove Debug Endpoints**: Don't expose system information in production
+## 🔄 Migration from Server-based Version
+
+This application was modernized from a Node.js server-based version to a static GitHub Pages deployment:
+
+### What Changed
+- ✅ **Removed bash deployment script** (`deploy.sh`)
+- ✅ **Moved source files to `src/` directory**
+- ✅ **Created GitHub Actions workflow** for automatic deployment
+- ✅ **Converted to client-side search** (no more server API)
+- ✅ **Added XSS protection** with HTML escaping
+- ✅ **Removed server dependencies** (Express.js, SQLite, etc.)
+
+### Legacy Files
+The following files remain for reference but are not used in the static version:
+- `server.js` - The old Node.js server
+- `package.json` - Node.js dependencies
+- `package-lock.json` - Dependency lockfile
+
+## 📱 Browser Compatibility
+
+Works in all modern browsers:
+- Chrome/Chromium 60+
+- Firefox 55+
+- Safari 12+
+- Edge 79+
+
+## 🤝 Contributing
+
+Feel free to contribute:
+- Add more monsters to the database
+- Improve the search functionality
+- Enhance the Zelda theme
+- Add more interactive features
 
 ## 📝 License
 
 MIT License - See LICENSE file for details.
 
-## 🤝 Contributing
-
-This is an educational project. Feel free to:
-- Add more monsters
-- Create additional vulnerability examples
-- Improve the Zelda theme
-- Add more secure coding examples
-
 ---
 
-**Remember**: *"It's dangerous to go alone! Take this knowledge of security vulnerabilities with you."* 🗡️
+**"It's dangerous to go alone! Take this modernized monster database with you."** 🗡️
