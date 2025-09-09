@@ -1,6 +1,6 @@
 name: Deploy to GitHub Pages
 
-on:
+'on':
   push:
     branches: [ main ]
   pull_request:
