@@ -9,6 +9,7 @@ permissions:
   contents: read
   pages: write
   id-token: write
+  attestations: write
 
 concurrency:
   group: "pages"
@@ -16,16 +17,30 @@ concurrency:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node-version: [16, 18, 20]
+        include:
+          # Only deploy from Ubuntu with Node 18 to avoid multiple deployments
+          - os: ubuntu-latest
+            node-version: 18
+            deploy: true
+        exclude:
+          # Exclude macOS with Node 16 to reduce job count
+          - os: macos-latest
+            node-version: 16
+    
+    runs-on: ${{ matrix.os }}
     
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
       
-    - name: Setup Node.js
+    - name: Setup Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: ${{ matrix.node-version }}
         cache: 'npm'
     
     - name: Install dependencies
@@ -36,14 +51,36 @@ jobs:
         mkdir -p dist
         cp -r src/* dist/
         # Ensure all static files are in the right place for GitHub Pages
+    
+    - name: Create build artifact (Ubuntu deployment only)
+      if: matrix.deploy == true
+      run: |
+        # Create a tarball of the built application for attestation
+        tar -czf zelda-monster-app.tar.gz -C dist .
+        
+    - name: Generate artifact attestation
+      if: matrix.deploy == true
+      uses: actions/attest-build-provenance@v1
+      with:
+        subject-path: 'zelda-monster-app.tar.gz'
         
     - name: Setup Pages
+      if: matrix.deploy == true
       uses: actions/configure-pages@v4
       
     - name: Upload artifact
+      if: matrix.deploy == true
       uses: actions/upload-pages-artifact@v3
       with:
         path: ./dist
+        
+    - name: Upload build artifact with attestation
+      if: matrix.deploy == true
+      uses: actions/upload-artifact@v4
+      with:
+        name: zelda-monster-app-build
+        path: zelda-monster-app.tar.gz
+        retention-days: 30
 
   deploy:
     environment:
