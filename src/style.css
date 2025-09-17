@@ -30,6 +30,144 @@ body {
     animation: float 20s ease-in-out infinite;
 }
 
+/* GitHub Triforce Section */
+.triforce-section {
+    background: linear-gradient(135deg, #1a0f2e, #3a2a4e, #1a0f2e);
+    border: 3px solid #ffd700;
+    border-radius: 20px;
+    margin: 2rem 1rem;
+    padding: 3rem 2rem;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+    position: relative;
+    overflow: hidden;
+}
+
+.triforce-section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+    animation: rotate 20s linear infinite;
+    z-index: 0;
+}
+
+@keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.triforce-container {
+    position: relative;
+    z-index: 1;
+}
+
+.triforce-section h2 {
+    color: #ffd700;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 20px #ffd700;
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+.triforce-subtitle {
+    color: #c9b037;
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    font-style: italic;
+}
+
+.triforce-pillars {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.triforce-pillar {
+    background: linear-gradient(135deg, #2d1b3d, #4a3c5c);
+    border: 2px solid #ffd700;
+    border-radius: 15px;
+    padding: 2rem 1.5rem;
+    transition: all 0.3s ease;
+    position: relative;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.triforce-pillar:hover {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0 15px 40px rgba(255, 215, 0, 0.3);
+}
+
+.triforce-symbol {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    filter: drop-shadow(0 0 15px #ffd700);
+    animation: pulse 3s ease-in-out infinite;
+}
+
+.triforce-pillar.copilot .triforce-symbol {
+    color: #4f46e5;
+    filter: drop-shadow(0 0 15px #4f46e5);
+}
+
+.triforce-pillar.security .triforce-symbol {
+    color: #dc2626;
+    filter: drop-shadow(0 0 15px #dc2626);
+}
+
+.triforce-pillar.actions .triforce-symbol {
+    color: #059669;
+    filter: drop-shadow(0 0 15px #059669);
+}
+
+.triforce-pillar h3 {
+    color: #ffd700;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 4px #000;
+}
+
+.triforce-pillar p {
+    color: #f4e4c1;
+    line-height: 1.6;
+    margin-bottom: 0.5rem;
+}
+
+.triforce-pillar p:first-of-type {
+    color: #ffd700;
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+}
+
+.victory-message {
+    background: linear-gradient(45deg, #2d5a2d, #4a7c4a);
+    border: 2px solid #22c55e;
+    border-radius: 15px;
+    padding: 2rem;
+    margin-top: 2rem;
+    box-shadow: 0 8px 25px rgba(34, 197, 94, 0.3);
+}
+
+.victory-message p {
+    color: #f0fdf4;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.victory-message p:first-child {
+    color: #22c55e;
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
 @keyframes float {
     0%, 100% { transform: translateY(0px) rotate(0deg); }
     50% { transform: translateY(-10px) rotate(1deg); }
@@ -210,6 +348,71 @@ main {
     font-size: 1.5rem;
 }
 
+/* Defeated Monster Styles */
+.monster-card.defeated {
+    background: linear-gradient(135deg, #2d2d2d, #4a4a4a);
+    border: 2px solid #666;
+    opacity: 0.8;
+    position: relative;
+}
+
+.monster-card.defeated::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(255, 255, 255, 0.1) 10px,
+        rgba(255, 255, 255, 0.1) 20px
+    );
+    pointer-events: none;
+    border-radius: 13px;
+}
+
+.defeated-stamp {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: #dc2626;
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 0.8rem;
+    transform: rotate(-15deg);
+    box-shadow: 0 2px 8px rgba(220, 38, 38, 0.5);
+    z-index: 2;
+}
+
+.monster-card.defeated .monster-image {
+    filter: grayscale(100%) drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
+    animation: none;
+}
+
+.monster-card.defeated h3 {
+    color: #999;
+    text-decoration: line-through;
+}
+
+.monster-card.defeated .monster-type {
+    color: #888;
+}
+
+.monster-card.defeated p:not(.monster-type) {
+    color: #bbb;
+}
+
+.monster-card.defeated .monster-stats span {
+    background: linear-gradient(45deg, #333, #555);
+    color: #999;
+    border-color: #666;
+}
+
 .monster-image {
     font-size: 4rem;
     margin-bottom: 1rem;
@@ -340,5 +543,27 @@ footer p:first-child {
     
     #searchQuery {
         min-width: auto;
+    }
+    
+    .triforce-section {
+        margin: 1rem 0.5rem;
+        padding: 2rem 1rem;
+    }
+    
+    .triforce-section h2 {
+        font-size: 2rem;
+    }
+    
+    .triforce-pillars {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .triforce-pillar {
+        padding: 1.5rem 1rem;
+    }
+    
+    .victory-message {
+        padding: 1.5rem;
     }
 }
