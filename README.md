@@ -39,10 +39,10 @@ This demo includes the following vulnerabilities for educational purposes:
 ## 🏰 Quick Start
 
 ### Prerequisites
-- Node.js (v14 or higher)
+- Node.js (v18 or higher)
 - npm
 
-### Installation & Deployment
+### Installation & Development
 
 1. **Clone and navigate to the repository**:
    ```bash
@@ -50,7 +50,7 @@ This demo includes the following vulnerabilities for educational purposes:
    cd mbianchidev-eficode-universe-2025
    ```
 
-2. **Run the deployment script**:
+2. **Install dependencies**:
    ```bash
    ./deploy.sh
 
@@ -64,12 +64,23 @@ This demo includes the following vulnerabilities for educational purposes:
    http://localhost:3000
    ```
 
-The deployment script will:
-- Show an ASCII art of Dark Link 🐲
-- Install dependencies
-- Verify all required files
-- Display security warnings
-- Start the server on localhost:3000
+### Deployment
+
+The app is automatically deployed to GitHub Pages using GitHub Actions whenever changes are pushed to the main branch. 
+
+The deployment process:
+- Installs dependencies
+- Builds the application from the `src/` folder
+- Deploys static files to GitHub Pages
+
+### Manual Build
+
+To build the application manually:
+```bash
+npm run build
+```
+
+This will create a `dist/` folder with all the built files ready for deployment.
 
 ## 🎮 How to Use
 
@@ -101,14 +112,18 @@ The deployment script will:
 ## 🗂️ File Structure
 
 ```
-├── index.html          # Main web page
-├── style.css           # Zelda-themed styling
-├── script.js           # Frontend JavaScript (contains XSS vulnerabilities)
-├── server.js           # Node.js backend (contains SQL injection vulnerabilities)
-├── package.json        # Dependencies
-├── deploy.sh           # Build & deploy script with Dark Link ASCII art
-├── monsters.db         # SQLite database (generated automatically)
-└── README.md           # This file
+├── src/
+│   ├── index.html       # Main web page
+│   ├── style.css        # Zelda-themed styling
+│   ├── script.js        # Frontend JavaScript (contains XSS vulnerabilities)
+│   └── server.js        # Node.js backend (contains SQL injection vulnerabilities)
+├── .github/
+│   └── workflows/
+│       └── deploy.yml   # GitHub Actions deployment workflow
+├── dist/                # Built files (generated automatically)
+├── package.json         # Dependencies and build scripts
+├── monsters.db          # SQLite database (generated automatically)
+└── README.md            # This file
 ```
 
 ## 🛠️ Technical Details
