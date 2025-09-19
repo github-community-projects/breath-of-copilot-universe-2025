@@ -97,11 +97,11 @@ app.post('/api/search', (req, res) => {
     
     SECURE VERSION WOULD USE: db.all("SELECT * FROM monsters WHERE name LIKE ?", [`%${query}%`], callback)
     */
-    const vulnerableQuery = `SELECT * FROM monsters WHERE name LIKE '%${query}%' OR type LIKE '%${query}%' OR description LIKE '%${query}%'`;
-    
-    console.log(`💀 Executing vulnerable SQL query: ${vulnerableQuery}`);
+    const secureQuery = "SELECT * FROM monsters WHERE name LIKE ? OR type LIKE ? OR description LIKE ?";
+    const params = [`%${query}%`, `%${query}%`, `%${query}%`];
+    console.log(`🔒 Executing secure SQL query: ${secureQuery} with params: ${JSON.stringify(params)}`);
 
-    db.all(vulnerableQuery, (err, rows) => {
+    db.all(secureQuery, params, (err, rows) => {
         if (err) {
             console.error('Database error:', err);
             
@@ -137,7 +137,8 @@ app.post('/api/search', (req, res) => {
             success: true,
             results: rows,
             debug: {
-                query: vulnerableQuery,
+                query: secureQuery,
+                params: params,
                 timestamp: new Date().toISOString()
             }
         });
