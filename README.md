@@ -52,15 +52,14 @@ This demo includes the following vulnerabilities for educational purposes:
 
 2. **Install dependencies**:
    ```bash
-   npm install
+   ./deploy.sh
+
+   # if there's a process already
+   lsof -i tcp:3000
+   kill -9 <PID>
    ```
 
-3. **Start the development server**:
-   ```bash
-   npm start
-   ```
-
-4. **Open your browser** and visit:
+3. **Open your browser** and visit:
    ```
    http://localhost:3000
    ```
