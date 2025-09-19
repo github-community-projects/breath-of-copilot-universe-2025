@@ -53,6 +53,10 @@ This demo includes the following vulnerabilities for educational purposes:
 2. **Run the deployment script**:
    ```bash
    ./deploy.sh
+
+   # if there's a process already
+   lsof -i tcp:3000
+   kill -9 <PID>
    ```
 
 3. **Open your browser** and visit:
