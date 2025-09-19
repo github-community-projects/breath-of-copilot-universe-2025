@@ -50,11 +50,12 @@ This demo includes the following vulnerabilities for educational purposes:
    cd mbianchidev-eficode-universe-2025
    ```
 
-2. **Install dependencies**:
+2. **Install dependencies and start the server**:
    ```bash
-   ./deploy.sh
+   npm install
+   npm start
 
-   # if there's a process already
+   # if there's a process already running on port 3000
    lsof -i tcp:3000
    kill -9 <PID>
    ```

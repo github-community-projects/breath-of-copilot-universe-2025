@@ -1,0 +1,182 @@
+name: Build and Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  attestations: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # Matrix build job to test across different environments
+  build-matrix:
+    name: Build on ${{ matrix.os }} with Node ${{ matrix.node-version }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        node-version: [18, 20, 22]
+      fail-fast: false
+      
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build application
+        run: npm run build
+
+      - name: Run basic verification
+        run: |
+          # Verify dist directory exists and contains expected files
+          if [ ! -d "dist" ]; then echo "Error: dist directory not found" && exit 1; fi
+          if [ ! -f "dist/index.html" ]; then echo "Error: index.html not found in dist" && exit 1; fi
+          if [ ! -f "dist/style.css" ]; then echo "Error: style.css not found in dist" && exit 1; fi
+          if [ ! -f "dist/script.js" ]; then echo "Error: script.js not found in dist" && exit 1; fi
+          if [ ! -f "dist/server.js" ]; then echo "Error: server.js not found in dist" && exit 1; fi
+          echo "✅ Build verification successful on ${{ matrix.os }} with Node ${{ matrix.node-version }}"
+        shell: bash
+
+  # Main build and deploy job (only on Ubuntu with Node 20)
+  build-and-deploy:
+    name: Build and Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+    needs: build-matrix
+    if: github.ref == 'refs/heads/main'
+    
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+      
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build application
+        run: npm run build
+
+      - name: Create deployment artifacts
+        run: |
+          # Copy static files for GitHub Pages (no server.js needed for static deployment)
+          mkdir -p github-pages
+          cp dist/index.html github-pages/
+          cp dist/style.css github-pages/
+          cp dist/script.js github-pages/
+          
+          # Create a simple package info file for attestation
+          echo '{"name": "zelda-monster-demo", "version": "1.0.0", "build_time": "'$(date -u +%Y-%m-%dT%H:%M:%SZ)'"}' > github-pages/build-info.json
+          
+          # Create artifact archive
+          tar -czf zelda-monster-demo-build.tar.gz -C github-pages .
+          
+          # Also create the full application archive (including server.js)
+          tar -czf zelda-monster-demo-full.tar.gz -C dist .
+
+      - name: Generate build artifact attestation
+        uses: actions/attest-build-provenance@v1
+        id: attest-build
+        with:
+          subject-path: 'zelda-monster-demo-build.tar.gz'
+
+      - name: Generate full app artifact attestation  
+        uses: actions/attest-build-provenance@v1
+        id: attest-full
+        with:
+          subject-path: 'zelda-monster-demo-full.tar.gz'
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: zelda-monster-demo-build
+          path: |
+            zelda-monster-demo-build.tar.gz
+            zelda-monster-demo-full.tar.gz
+          retention-days: 30
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload to GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './github-pages'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Output deployment info
+        run: |
+          echo "🚀 Zelda Monster Database deployed successfully!"
+          echo "📱 Site URL: ${{ steps.deployment.outputs.page_url }}"
+          echo "🔒 Build attestations created:"
+          echo "   - Build artifact: ${{ steps.attest-build.outputs.bundle-path }}"
+          echo "   - Full app: ${{ steps.attest-full.outputs.bundle-path }}"
+
+  # Security scanning job
+  security-scan:
+    name: Security Analysis
+    runs-on: ubuntu-latest
+    needs: build-matrix
+    permissions:
+      security-events: write
+      
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+        continue-on-error: true
+
+      - name: Upload Trivy scan results
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: 'trivy-results.sarif'
+        continue-on-error: true
+
+      - name: Educational Security Notice
+        run: |
+          echo "⚠️  EDUCATIONAL SECURITY NOTICE ⚠️"
+          echo "This application contains INTENTIONAL vulnerabilities for educational purposes:"
+          echo "• SQL Injection vulnerabilities in search endpoints"
+          echo "• Cross-Site Scripting (XSS) potential"  
+          echo "• Information disclosure in error messages"
+          echo ""
+          echo "🎓 These vulnerabilities are for learning and demonstration only!"
+          echo "🚨 DO NOT deploy this application to a production environment!"
