@@ -225,12 +225,15 @@ main() {
     show_commit_history "$BRANCH_NAME"
     
     # Count available commits - try remote first, fall back to local
-    local commit_count
+    # Use the same method as show_commit_history to ensure consistency
+    local temp_file=$(mktemp)
     if git show-ref --verify --quiet refs/remotes/origin/$BRANCH_NAME; then
-        commit_count=$(git log origin/$BRANCH_NAME --oneline -n $MAX_COMMITS | wc -l)
+        git log origin/$BRANCH_NAME --oneline -n $MAX_COMMITS --pretty=format:"%h|%ad|%an|%s" --date=short > "$temp_file"
     else
-        commit_count=$(git log $BRANCH_NAME --oneline -n $MAX_COMMITS | wc -l)
+        git log $BRANCH_NAME --oneline -n $MAX_COMMITS --pretty=format:"%h|%ad|%an|%s" --date=short > "$temp_file"
     fi
+    local commit_count=$(wc -l < "$temp_file")
+    rm "$temp_file"
     
     if [ "$commit_count" -eq 0 ]; then
         print_error "No commits found in branch '$BRANCH_NAME'"
@@ -245,7 +248,7 @@ main() {
     # Get user selection
     local selection
     while true; do
-        echo -e "${YELLOW}Enter the number of the commit to rollback to (1-$commit_count), or 'q' to quit: ${NC}"
+        echo -e "${YELLOW}Enter the number of the commit to rollback to (2-$commit_count), or 'q' to quit: ${NC}"
         read -r selection
         
         if [[ "$selection" == "q" || "$selection" == "Q" ]]; then
@@ -253,10 +256,12 @@ main() {
             exit 0
         fi
         
-        if [[ "$selection" =~ ^[0-9]+$ ]] && [ "$selection" -ge 1 ] && [ "$selection" -le "$commit_count" ]; then
+        if [[ "$selection" == "1" ]]; then
+            print_error "You cannot rollback to the current commit, please select a past commit instead"
+        elif [[ "$selection" =~ ^[0-9]+$ ]] && [ "$selection" -ge 2 ] && [ "$selection" -le "$commit_count" ]; then
             break
         else
-            print_error "Invalid selection. Please enter a number between 1 and $commit_count, or 'q' to quit."
+            print_error "Invalid selection. Please enter a number between 2 and $commit_count, or 'q' to quit."
         fi
     done
     
