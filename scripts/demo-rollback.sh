@@ -31,7 +31,7 @@ echo "2" > /tmp/test_input.txt
 echo "NO" >> /tmp/test_input.txt
 
 # Run the script with simulated input, timeout after 15 seconds
-timeout 15s ./rollback-main.sh main < /tmp/test_input.txt 2>/dev/null || true
+timeout 15s ./scripts/rollback-main.sh main < /tmp/test_input.txt 2>/dev/null || true
 
 # Clean up
 rm -f /tmp/test_input.txt
@@ -42,9 +42,9 @@ echo "✅ Demo completed successfully!"
 echo "================================================="
 echo ""
 echo "📝 Script usage examples:"
-echo "   ./rollback-main.sh              # Rollback main branch"
-echo "   ./rollback-main.sh develop      # Rollback develop branch"
-echo "   ./rollback-main.sh --help       # Show help"
+echo "   ./scripts/rollback-main.sh              # Rollback main branch"
+echo "   ./scripts/rollback-main.sh develop      # Rollback develop branch"
+echo "   ./scripts/rollback-main.sh --help       # Show help"
 echo ""
 echo "⚠️  In a real scenario with proper remote access, the script would:"
 echo "   1. Fetch the latest changes from remote"

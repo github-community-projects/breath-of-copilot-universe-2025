@@ -20,13 +20,13 @@ A comprehensive bash script to safely rollback a remote Git branch to a previous
 
 ```bash
 # Rollback main branch (default)
-./rollback-main.sh
+./scripts/rollback-main.sh
 
 # Rollback a specific branch
-./rollback-main.sh develop
+./scripts/rollback-main.sh develop
 
 # Show help
-./rollback-main.sh --help
+./scripts/rollback-main.sh --help
 ```
 
 ### Interactive Flow
@@ -172,17 +172,17 @@ Type 'YES' to confirm the rollback, or 'NO' to cancel: YES
 
 ### Rollback main branch
 ```bash
-./rollback-main.sh
+./scripts/rollback-main.sh
 ```
 
 ### Rollback development branch
 ```bash
-./rollback-main.sh develop
+./scripts/rollback-main.sh develop
 ```
 
 ### View available options
 ```bash
-./rollback-main.sh --help
+./scripts/rollback-main.sh --help
 ```
 
 ### Cancel operation
