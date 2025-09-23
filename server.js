@@ -147,22 +147,19 @@ app.post('/api/search', (req, res) => {
 // Additional vulnerable endpoint for demonstration
 app.get('/api/monster/:id', (req, res) => {
     const { id } = req.params;
-    
-    /* 
-    ⚠️ ANOTHER SQL INJECTION VULNERABILITY ⚠️
-    Direct parameter insertion without validation
-    */
-    const vulnerableQuery = `SELECT * FROM monsters WHERE id = ${id}`;
-    
-    db.get(vulnerableQuery, (err, row) => {
+
+    // Secure: parameterized query to prevent SQL injection
+    const secureQuery = 'SELECT * FROM monsters WHERE id = ?';
+
+    db.get(secureQuery, [id], (err, row) => {
         if (err) {
             return res.status(500).json({ error: err.message });
         }
-        
+
         if (!row) {
             return res.status(404).json({ error: 'Monster not found' });
         }
-        
+
         res.json(row);
     });
 });
