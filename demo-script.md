@@ -6,7 +6,7 @@
 # GitHub Copilot section (Matteo)
 
 - Show issue [[link](https://github.com/github-community-projects/breath-of-copilot-universe-2025/issues/10)]
-- Show premade PR that fixes issue created [link](https://github.com/github-community-projects/breath-of-copilot-universe-2025/pull/11)
+- Show premade PR that fixes issue created [link](https://github.com/github-community-projects/breath-of-copilot-universe-2025/pull/18)
 - Merge the PR
 - Show github pages deployed [[link](https://github-community-projects.github.io/breath-of-copilot-universe-2025/)]
 
