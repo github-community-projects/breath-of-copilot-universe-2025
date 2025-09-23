@@ -16,7 +16,7 @@
 
 # GitHub Advanced Security section (Alexandra)
 
-- Navigate again to GitHub pages deployed [[link](https://github-community-projects.github.io/breath-of-copilot-universe-2025/)]
+- Navigate to local application deployed [[link](http://localhost:3000)]
 - Exec `' OR '1'='1` query so that we show the unsanitized input vulnerability of the db
 - Navigate to one alert with SQL vulnerability [[link](https://github.com/githubcustomers/breath-of-copilot-universe-2025/security/code-scanning/4)]
 - Show PRs created with GitHub Copilot Autofix [[link1](https://github.com/githubcustomers/breath-of-copilot-universe-2025/pull/14), [link2](https://github.com/githubcustomers/breath-of-copilot-universe-2025/pull/13), [link3](https://github.com/githubcustomers/breath-of-copilot-universe-2025/pull/12)]
