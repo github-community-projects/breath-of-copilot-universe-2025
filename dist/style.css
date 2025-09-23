@@ -315,6 +315,108 @@ footer p:first-child {
     font-weight: bold;
 }
 
+/* Triforce with DevEx Pillars */
+.triforce-container {
+    margin: 2rem 0;
+    display: flex;
+    justify-content: center;
+}
+
+.triforce {
+    position: relative;
+    width: 200px;
+    height: 200px;
+}
+
+.triforce-piece {
+    position: absolute;
+    width: 0;
+    height: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.triforce-piece.top {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-bottom: 87px solid #ffd700;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+}
+
+.triforce-piece.bottom-left {
+    bottom: 0;
+    left: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-bottom: 87px solid #ffd700;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+}
+
+.triforce-piece.bottom-right {
+    bottom: 0;
+    right: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-bottom: 87px solid #ffd700;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+}
+
+.pillar-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    z-index: 1;
+}
+
+.pillar-name {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 10px;
+    color: #ffd700;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    text-shadow: 2px 2px 4px #000;
+}
+
+/* Defeated Monsters Styling */
+.monster-card.defeated {
+    opacity: 0.6;
+    filter: grayscale(70%);
+    background: linear-gradient(145deg, #2a1f3d, #1a0f2e);
+    border-color: #4a3c5c;
+}
+
+.monster-card.defeated .monster-image {
+    filter: grayscale(80%) brightness(0.7);
+    animation: none;
+}
+
+.monster-card.defeated h3 {
+    color: #8a8a8a;
+}
+
+.monster-card.defeated .monster-type {
+    color: #666666;
+}
+
+.monster-card.defeated .monster-stats span {
+    background: linear-gradient(45deg, #1a1a1a, #2a2a2a);
+    color: #888888;
+    border-color: #333333;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     header h1 {
