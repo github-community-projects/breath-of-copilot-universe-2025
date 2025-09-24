@@ -343,8 +343,10 @@ footer p:first-child {
     border: 2px solid #b8860b;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
-    min-width: 120px;
+    width: 140px;
+    height: 80px;
     transition: transform 0.3s ease;
+    box-sizing: border-box;
 }
 
 .triforce-piece:hover {
