@@ -44,7 +44,7 @@ main() {
     echo ""
     
     # Default markdown file path
-    local markdown_file="${1:-prompts/issue.md}"
+    local markdown_file="../prompts/issue.md"
     
     print_info "Creating GitHub issue from: $markdown_file"
     
