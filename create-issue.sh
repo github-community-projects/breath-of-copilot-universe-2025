@@ -71,14 +71,14 @@ main() {
     local first_line=$(head -n 1 "$markdown_file")
     
     # Check if first line starts with "Title: "
-    if [[ ! "$first_line" =~ ^Title:\ .+ ]]; then
+    if [[ ! "$first_line" =~ ^"Title: ".+ ]]; then
         print_error "Invalid title format in first line of $markdown_file"
         print_error "Expected format: 'Title: Your Issue Title'"
         print_error "Found: '$first_line'"
         exit 1
     fi
     
-    local title=$(echo "$first_line" | sed 's/^Title: //')
+    local title="${first_line#Title: }"
     
     if [ -z "$title" ]; then
         print_error "Could not extract title from first line of $markdown_file"
@@ -92,7 +92,7 @@ main() {
     print_status "Title: $title"
     print_info "Description preview:"
     echo -e "${NC}$(echo "$description" | head -n 3)${NC}"
-    if [ $(echo "$description" | wc -l) -gt 3 ]; then
+    if [ "$(echo "$description" | wc -l)" -gt 3 ]; then
         echo -e "${NC}...${NC}"
     fi
     echo ""
@@ -111,12 +111,12 @@ main() {
     # Create the issue
     print_info "Creating GitHub issue..."
     
-    local issue_url
-    if issue_url=$(gh issue create --title "$title" --body "$description" 2>&1); then
+    local result
+    if result=$(gh issue create --title "$title" --body "$description" 2>&1); then
         print_status "Issue created successfully!"
-        print_status "Issue URL: $issue_url"
+        print_status "Issue URL: $result"
     else
-        print_error "Failed to create issue: $issue_url"
+        print_error "Failed to create issue: $result"
         exit 1
     fi
     
