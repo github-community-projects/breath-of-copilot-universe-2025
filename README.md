@@ -5,10 +5,12 @@ A demo web application featuring the dark creatures of Hyrule Kingdom, built for
 ## 🎯 Features
 
 - **Legend of Zelda themed interface** with dark, monster-filled design
+- **Defeated monster gallery** - all monsters appear as skulls in greyed-out state
+- **DevEx Triforce** featuring the three pillars: Copilot (💻), Advanced Security (🔒), and Actions (🤖)
 - **Interactive monster gallery** with boss monsters and regular creatures
 - **Search functionality** to find specific monsters
 - **Intentional security vulnerabilities** for educational purposes
-- **ASCII art deployment script** featuring Dark Link
+- **Modern GitHub Actions deployment** with matrix builds and artifact attestations
 
 ## ⚠️ Security Warnings
 
@@ -47,19 +49,26 @@ This demo includes the following vulnerabilities for educational purposes:
 1. **Clone and navigate to the repository**:
    ```bash
    git clone <repository-url>
-   cd mbianchidev-eficode-universe-2025
+   cd breath-of-copilot-universe-2025
    ```
 
 2. **Install dependencies**:
    ```bash
-   ./deploy.sh
+   npm install
+   ```
 
-   # if there's a process already
+3. **Start the development server**:
+   ```bash
+   npm start
+   # or for development with auto-reload
+   npm run dev
+   
+   # if there's a process already running
    lsof -i tcp:3000
    kill -9 <PID>
    ```
 
-3. **Open your browser** and visit:
+4. **Open your browser** and visit:
    ```
    http://localhost:3000
    ```
@@ -113,13 +122,13 @@ This will create a `dist/` folder with all the built files ready for deployment.
 
 ```
 ├── src/
-│   ├── index.html       # Main web page
-│   ├── style.css        # Zelda-themed styling
+│   ├── index.html       # Main web page with defeated monsters and DevEx Triforce
+│   ├── style.css        # Zelda-themed styling with defeated monster effects
 │   ├── script.js        # Frontend JavaScript (contains XSS vulnerabilities)
 │   └── server.js        # Node.js backend (contains SQL injection vulnerabilities)
 ├── .github/
 │   └── workflows/
-│       └── deploy.yml   # GitHub Actions deployment workflow
+│       └── deploy.yml   # GitHub Actions deployment workflow with attestations
 ├── dist/                # Built files (generated automatically)
 ├── package.json         # Dependencies and build scripts
 ├── monsters.db          # SQLite database (generated automatically)

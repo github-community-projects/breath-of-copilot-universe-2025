@@ -315,6 +315,102 @@ footer p:first-child {
     font-weight: bold;
 }
 
+/* Triforce with DevEx Pillars */
+.triforce-container {
+    margin: 2rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.triforce {
+    position: relative;
+    width: 280px;
+    height: 240px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.triforce-piece {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 8px;
+    padding: 15px;
+    background: linear-gradient(45deg, #ffd700, #ffed4a);
+    border: 2px solid #b8860b;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+    width: 140px;
+    height: 80px;
+    transition: transform 0.3s ease;
+    box-sizing: border-box;
+}
+
+.triforce-piece:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.6);
+}
+
+.triforce-piece.top {
+    margin-bottom: 10px;
+}
+
+.triforce-piece.bottom-left,
+.triforce-piece.bottom-right {
+    margin-top: 5px;
+}
+
+.triforce .bottom-row {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.pillar-icon {
+    font-size: 2rem;
+    margin-bottom: 8px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.pillar-name {
+    color: #1a0f2e;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-align: center;
+    text-shadow: none;
+    white-space: nowrap;
+}
+
+/* Defeated Monsters Styling */
+.monster-card.defeated {
+    opacity: 0.6;
+    filter: grayscale(70%);
+    background: linear-gradient(145deg, #2a1f3d, #1a0f2e);
+    border-color: #4a3c5c;
+}
+
+.monster-card.defeated .monster-image {
+    filter: grayscale(80%) brightness(0.7);
+    animation: none;
+}
+
+.monster-card.defeated h3 {
+    color: #8a8a8a;
+}
+
+.monster-card.defeated .monster-type {
+    color: #666666;
+}
+
+.monster-card.defeated .monster-stats span {
+    background: linear-gradient(45deg, #1a1a1a, #2a2a2a);
+    color: #888888;
+    border-color: #333333;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     header h1 {

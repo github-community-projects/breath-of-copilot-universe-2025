@@ -2,10 +2,12 @@
   "name": "zelda-monster-demo",
   "version": "1.0.0",
   "description": "Legend of Zelda themed demo app with intentional vulnerabilities",
-  "main": "server.js",
+  "main": "src/server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js"
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "build": "mkdir -p dist && cp -r src/* dist/",
+    "build:clean": "rm -rf dist && npm run build"
   },
   "keywords": ["zelda", "demo", "security", "vulnerabilities"],
   "author": "GitHub Copilot",

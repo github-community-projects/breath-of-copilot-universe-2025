@@ -3,6 +3,9 @@ node_modules/
 npm-debug.log*
 package-lock.json
 
+# Build artifacts
+dist/
+
 # Database files (generated automatically)
 *.db
 *.sqlite
