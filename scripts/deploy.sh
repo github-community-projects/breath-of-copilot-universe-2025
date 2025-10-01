@@ -81,9 +81,6 @@ command_exists() {
 main() {
     clear
     
-    # Show Dark Link ASCII art
-    show_dark_link_ascii
-    
     echo -e "${CYAN}═════════════════════════════════════════════════════════════════${NC}"
     echo -e "${CYAN}🏰 HYRULE MONSTER DATABASE - BUILD & DEPLOY SCRIPT 🏰${NC}"
     echo -e "${CYAN}═════════════════════════════════════════════════════════════════${NC}"
@@ -129,9 +126,12 @@ main() {
     echo "These vulnerabilities are for EDUCATIONAL PURPOSES ONLY! DO NOT deploy this application to a production environment!"
     echo -e "${NC}"
     echo ""
+
+    # Show Dark Link ASCII art
+    show_dark_link_ascii
     
     # Ask for confirmation
-    echo -e "${PURPLE}Do you want to continue and start the vulnerable server? [y/N]: ${NC}"
+    echo -e "${PURPLE}Do you want to continue and start a vulnerable server full of monsters? [y/N]: ${NC}"
     read -n 1 -r
     echo ""
     
