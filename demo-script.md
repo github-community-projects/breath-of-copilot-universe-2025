@@ -22,7 +22,7 @@
 - Show PRs created with GitHub Copilot Autofix [[link1](https://github.com/githubcustomers/breath-of-copilot-universe-2025/pull/14), [link2](https://github.com/githubcustomers/breath-of-copilot-universe-2025/pull/13), [link3](https://github.com/githubcustomers/breath-of-copilot-universe-2025/pull/12)]
 - Merge PRs in order
 - Show the GitHub pages deployed [[link](https://github-community-projects.github.io/breath-of-copilot-universe-2025/)]
-- Exec `' OR '1'='1` query so that we show it's gone!
+- Exec `' OR '1'='1` query or make audience do it via QR Code, so that we show it's gone!
 
 # Outro (Alexandra, Matteo)
 
