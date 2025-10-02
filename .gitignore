@@ -1,12 +1,17 @@
 # Dependencies
 node_modules/
 npm-debug.log*
-package-lock.json
 
 # Database files (generated automatically)
 *.db
 *.sqlite
 *.sqlite3
+
+# Build artifacts
+dist/
+
+# Database files in src (generated at runtime)
+src/*.db
 
 # Logs
 logs

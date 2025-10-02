@@ -65,6 +65,58 @@ header h1 {
     font-style: italic;
 }
 
+/* Triforce of DevEx */
+.triforce-devex {
+    margin-top: 2rem;
+    padding: 2rem;
+}
+
+.triforce-title {
+    font-size: 1.8rem;
+    color: #ffd700;
+    margin-bottom: 1.5rem;
+    text-shadow: 2px 2px 4px #000;
+}
+
+.triforce-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.triforce-piece {
+    background: linear-gradient(135deg, #2d1b3d, #4a3c5c);
+    border: 2px solid #ffd700;
+    border-radius: 15px;
+    padding: 1.5rem;
+    text-align: center;
+    min-width: 150px;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.triforce-piece:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.5);
+}
+
+.triforce-icon {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+}
+
+.triforce-label {
+    color: #ffd700;
+    font-weight: bold;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
 /* Navigation */
 nav {
     background: #2d1b3d;
@@ -260,6 +312,33 @@ main {
     font-size: 0.9rem;
     font-weight: bold;
     border: 1px solid #4a3c5c;
+}
+
+/* Defeated Monsters */
+.monster-card.defeated {
+    opacity: 0.6;
+    filter: grayscale(80%);
+}
+
+.monster-card.defeated:hover {
+    opacity: 0.7;
+    filter: grayscale(60%);
+}
+
+.monster-card.defeated .monster-image {
+    animation: none;
+    filter: grayscale(100%);
+}
+
+.monster-card.defeated h3,
+.monster-card.defeated .monster-type {
+    color: #888;
+}
+
+.monster-card.defeated .monster-stats span {
+    background: linear-gradient(45deg, #2a2a2a, #3a3a3a);
+    border-color: #555;
+    color: #999;
 }
 
 /* Search Results */

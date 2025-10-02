@@ -52,14 +52,19 @@ This demo includes the following vulnerabilities for educational purposes:
 
 2. **Install dependencies**:
    ```bash
-   ./deploy.sh
+   npm install
+   ```
 
-   # if there's a process already
+3. **Start the development server**:
+   ```bash
+   npm start
+
+   # if there's a process already running on port 3000
    lsof -i tcp:3000
    kill -9 <PID>
    ```
 
-3. **Open your browser** and visit:
+4. **Open your browser** and visit:
    ```
    http://localhost:3000
    ```
@@ -69,8 +74,10 @@ This demo includes the following vulnerabilities for educational purposes:
 The app is automatically deployed to GitHub Pages using GitHub Actions whenever changes are pushed to the main branch. 
 
 The deployment process:
+- Builds the application on multiple platforms (Ubuntu, Windows) with different Node.js versions (18, 20, 22)
 - Installs dependencies
 - Builds the application from the `src/` folder
+- Creates artifact attestations for security and provenance
 - Deploys static files to GitHub Pages
 
 ### Manual Build
