@@ -16,7 +16,7 @@
   "author": "GitHub Copilot",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.18.2",
+    "express": "^5.1.0",
     "sqlite3": "^5.1.6",
     "body-parser": "^1.20.3",
     "express-rate-limit": "^8.1.0"
