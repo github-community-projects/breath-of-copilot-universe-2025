@@ -226,11 +226,9 @@ app.listen(PORT, () => {
         • Information disclosure in error messages
         • Debug endpoint exposing sensitive data
         
-        🎯 Try these attack vectors for educational purposes:
-        • Search: '; DROP TABLE monsters; --
+        🎯 Try this attack vectors for educational purposes:
+        • Search: '; DROP TABLE monsters; -- warning cannot roll back from this one!
         • Search: ' OR '1'='1
-        • Visit: /api/debug
-        • Visit: /api/monster/1' OR '1'='1 --
         
     🗡️ ═══════════════════════════════════════════════════════════════ 🛡️
     `);

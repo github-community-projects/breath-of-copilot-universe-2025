@@ -61,7 +61,7 @@ print_status() {
 }
 
 print_warning() {
-    echo -e "${YELLOW}[$(date +'%H:%M:%S')] ⚠️  $1${NC}"
+    echo -e "${YELLOW}[$(date +'%H:%M:%S')] ⚠️ $1${NC}"
 }
 
 print_error() {
@@ -69,7 +69,7 @@ print_error() {
 }
 
 print_info() {
-    echo -e "${BLUE}[$(date +'%H:%M:%S')] ℹ️  $1${NC}"
+    echo -e "${BLUE}[$(date +'%H:%M:%S')] ℹ️ $1${NC}"
 }
 
 # Function to check if a command exists
@@ -80,9 +80,6 @@ command_exists() {
 # Main deployment function
 main() {
     clear
-    
-    # Show Dark Link ASCII art
-    show_dark_link_ascii
     
     echo -e "${CYAN}═════════════════════════════════════════════════════════════════${NC}"
     echo -e "${CYAN}🏰 HYRULE MONSTER DATABASE - BUILD & DEPLOY SCRIPT 🏰${NC}"
@@ -102,8 +99,7 @@ main() {
         exit 1
     fi
     
-    print_status "Node.js version: $(node --version)"
-    print_status "npm version: $(npm --version)"
+    print_status "Node.js version: $(node --version) (npm version: $(npm --version))"
     echo ""
     
     # Install dependencies
@@ -117,40 +113,25 @@ main() {
             exit 1
         fi
     else
-        print_status "Dependencies already installed."
+        print_status "Dependencies pre-installed."
     fi
-    echo ""
-    
-    # Check for required files
-    print_info "Verifying application files..."
-    required_files=("package.json" "server.js" "index.html" "style.css" "script.js")
-    
-    for file in "${required_files[@]}"; do
-        if [ -f "$file" ]; then
-            print_status "Found: $file"
-        else
-            print_error "Missing required file: $file"
-            exit 1
-        fi
-    done
     echo ""
     
     # Security warnings
     print_warning "🚨 SECURITY ALERT 🚨"
     echo -e "${YELLOW}"
     echo "This application contains INTENTIONAL security vulnerabilities:"
-    echo "• SQL Injection vulnerabilities in search endpoints"
-    echo "• Cross-Site Scripting (XSS) potential"
-    echo "• Information disclosure in error messages"
-    echo "• Debug endpoints exposing sensitive information"
+    echo "• SQL Injection vulnerabilities in search endpoints, Cross-Site Scripting (XSS) potential, Information disclosure in error messages, Debug endpoints exposing sensitive information"
     echo ""
-    echo "These vulnerabilities are for EDUCATIONAL PURPOSES ONLY!"
-    echo "DO NOT deploy this application to a production environment!"
+    echo "These vulnerabilities are for EDUCATIONAL PURPOSES ONLY! DO NOT deploy this application to a production environment!"
     echo -e "${NC}"
     echo ""
+
+    # Show Dark Link ASCII art
+    show_dark_link_ascii
     
     # Ask for confirmation
-    echo -e "${PURPLE}Do you want to continue and start the vulnerable server? [y/N]: ${NC}"
+    echo -e "${PURPLE}Do you want to continue and start a vulnerable server full of monsters? [y/N]: ${NC}"
     read -n 1 -r
     echo ""
     
@@ -177,13 +158,9 @@ main() {
     echo -e "${GREEN}🎮 READY TO EXPLORE THE DARK SIDE OF HYRULE! 🎮${NC}"
     echo ""
     echo -e "${CYAN}📱 Web Application: ${YELLOW}http://localhost:3000${NC}"
-    echo -e "${CYAN}🔍 Try searching for monsters to test vulnerabilities${NC}"
-    echo -e "${CYAN}🐞 Debug endpoint: ${YELLOW}http://localhost:3000/api/debug${NC}"
     echo ""
-    echo -e "${RED}⚠️  Test these SQL injection attacks:${NC}"
-    echo -e "${RED}   • Search: ${YELLOW}'; DROP TABLE monsters; --${NC}"
+    echo -e "${RED}⚠️  Test a SQL injection attacks:${NC}"
     echo -e "${RED}   • Search: ${YELLOW}' OR '1'='1${NC}"
-    echo -e "${RED}   • URL: ${YELLOW}http://localhost:3000/api/monster/1' OR '1'='1 --${NC}"
     echo ""
     echo -e "${GREEN}Press Ctrl+C to stop the server${NC}"
     echo -e "${GREEN}════════════════════════════════════════════════════════════════${NC}"
