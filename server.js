@@ -8,6 +8,9 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const fs = require('fs');
 
+// Add rate limiting dependency
+const rateLimit = require('express-rate-limit');
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -67,13 +70,20 @@ function initializeDatabase() {
 
 // Routes
 
+// Rate limiter for /api/search
+const searchLimiter = rateLimit({
+    windowMs: 1 * 60 * 1000, // 1 minute
+    max: 10, // limit to 10 requests per window per IP
+    message: { success: false, error: 'Too many search requests from this IP, please try again later.' }
+});
+
 // Serve the main page
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // VULNERABLE ENDPOINT: SQL Injection vulnerability
-app.post('/api/search', (req, res) => {
+app.post('/api/search', searchLimiter, (req, res) => {
     const { query } = req.body;
     
     if (!query) {
