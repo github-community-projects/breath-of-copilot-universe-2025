@@ -1,0 +1,109 @@
+name: Build and Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  attestations: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # Matrix build job to demonstrate building on multiple platforms and Node versions
+  build:
+    name: Build on ${{ matrix.os }} with Node ${{ matrix.node-version }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        node-version: [18, 20, 22]
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build application
+        run: npm run build
+
+      - name: Upload build artifact (Ubuntu, Node 22 only)
+        if: matrix.os == 'ubuntu-latest' && matrix.node-version == 22
+        uses: actions/upload-artifact@v4
+        with:
+          name: zelda-monster-app
+          path: dist/
+          retention-days: 1
+
+  # Create attestations for the build artifacts
+  attest:
+    name: Create Artifact Attestations
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: zelda-monster-app
+          path: dist/
+
+      - name: Create artifact bundle for attestation
+        run: |
+          cd dist
+          tar -czf ../zelda-monster-app.tar.gz *
+          cd ..
+
+      - name: Generate artifact attestation
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: 'zelda-monster-app.tar.gz'
+
+  # Deploy to GitHub Pages
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: [build, attest]
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: zelda-monster-app
+          path: dist/
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact to Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
