@@ -10,6 +10,9 @@ npm-debug.log*
 # Build artifacts
 dist/
 
+# Database files in src (generated at runtime)
+src/*.db
+
 # Logs
 logs
 *.log

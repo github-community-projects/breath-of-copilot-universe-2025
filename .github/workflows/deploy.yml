@@ -81,7 +81,7 @@ jobs:
   # Deploy to GitHub Pages
   deploy:
     name: Deploy to GitHub Pages
-    needs: [build, attest]
+    needs: attest
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     
