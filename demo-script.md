@@ -35,6 +35,7 @@ Remember to:
 - In the homepage there should be a triforce with Copilot (a laptop), Advanced Security (a lock) and Actions (a robot) as the 3 pillars of DevEx!
 
 Do not generate any code changes or files. Just a plan that I can use in an issue.
+Repo is github-community-projects/breath-of-copilot-universe-2025.
 ```
 
 - Custom Agent: Reactifier [[config link](https://github.com/github-community-projects/breath-of-copilot-universe-2025/blob/main/.github/agents/reactifier.md)]
