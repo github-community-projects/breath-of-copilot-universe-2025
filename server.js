@@ -77,6 +77,13 @@ const searchLimiter = rateLimit({
     message: { success: false, error: 'Too many search requests from this IP, please try again later.' }
 });
 
+// 🐸 Rate limiter for general API endpoints
+const apiLimiter = rateLimit({
+    windowMs: 1 * 60 * 1000, // 1 minute
+    max: 30, // limit to 30 requests per window per IP
+    message: { error: 'Too many API requests from this IP, please try again later.' }
+});
+
 // Serve the main page
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
@@ -152,8 +159,8 @@ app.post('/api/search', searchLimiter, (req, res) => {
     });
 });
 
-// 🐸 SECURED ENDPOINT: Get monster by ID (SQL Injection FIXED!)
-app.get('/api/monster/:id', (req, res) => {
+// 🐸 SECURED ENDPOINT: Get monster by ID (SQL Injection FIXED! + Rate Limited)
+app.get('/api/monster/:id', apiLimiter, (req, res) => {
     const { id } = req.params;
     
     /* 
