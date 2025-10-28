@@ -63,7 +63,7 @@ So that we show the unsanitized input vulnerability of the db
 - Show GitHub Copilot Autofix [[link](https://github.com/github-community-projects/breath-of-copilot-universe-2025/pull/13)]
 - Show/Talk about Dependabot and Dependency review
 - Custom Agent: Frog Sec Fixer [[config link](https://github.com/github-community-projects/breath-of-copilot-universe-2025/blob/main/.github/agents/frog-sec-fixer.md)]
-- Show PR created with FrogSec [[link](https://github.com/github-community-projects/breath-of-copilot-universe-2025/pull/32)]
+- Show PR created with FrogSec [[link](https://github.com/github-community-projects/breath-of-copilot-universe-2025/pull/35)]
 - Merge Frog Sec Fixer PR
 - Show the GitHub pages deployed [[link](https://github-community-projects.github.io/breath-of-copilot-universe-2025/)]
 - Exec vulnerable query:
