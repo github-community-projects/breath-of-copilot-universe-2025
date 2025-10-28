@@ -39,7 +39,7 @@ Remember to:
 ## GitHub Copilot section (Matteo)
 
 - Show GitHub issue [[link](https://github.com/github-community-projects/breath-of-copilot-universe-2025/issues/24)]
-- Show GitHub Copilot session [[link](https://github.com/copilot/tasks/pull/PR_kwDOP3ioTc6t_l2k?session_id=0bf419fb-7358-413d-bff2-357a16a07e45)]
+- Show GitHub Copilot session [[link](https://github.com/copilot/tasks/pull/PR_kwDOPmSnws6rzb2N?session_id=2814a809-f401-4f06-8e81-37b51b91847d)]
 - Show GitHub Pull Request that fixes the issue created [link](https://github.com/github-community-projects/breath-of-copilot-universe-2025/pull/25)
 - Merge the PR and the Actions CI/CD should deploy on Pages! If not, you can fix it or use the backup [link](https://turbo-disco-gze28vk.pages.github.io/)
 
