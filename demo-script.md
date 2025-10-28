@@ -17,11 +17,12 @@ me know how to summon it in my own computer?
 
 # Level 1
 
-- Brainstorm Mode
+- Brainstorm Mode, start a new chat [here](https://github.com/copilot)
 
 Prompt:
 ```
 /brainstorm
+
 Create a plan for a modernization of the breath of copilot app.
 Remember to:
 - Get rid of the scripts/deploy.sh bash script
@@ -31,14 +32,18 @@ Remember to:
   - Also add a demonstration of matrix jobs building the site leveraging windows and ubuntu, with different versions of node
 - Maintain ALL the code vulnerabilities, they are needed for the demo
 - The monsters should be marked as defeated 1 time
-- In the homepage there should be a triforce with Copilot (a laptop), Advanced Security (a lock) and Actions (robot) as the 3 pillars of DevEx!
+- In the homepage there should be a triforce with Copilot (a laptop), Advanced Security (a lock) and Actions (a robot) as the 3 pillars of DevEx!
+
+Do not generate any code changes or files. Just a plan that I can use in an issue.
+Repo is github-community-projects/breath-of-copilot-universe-2025.
 ```
+
+- [Issue created](https://github.com/github-community-projects/breath-of-copilot-universe-2025/issues/24)
 
 - Custom Agent: Reactifier [[config link](https://github.com/github-community-projects/breath-of-copilot-universe-2025/blob/main/.github/agents/reactifier.md)]
 
 ## GitHub Copilot section (Matteo)
 
-- Show GitHub issue [[link](https://github.com/github-community-projects/breath-of-copilot-universe-2025/issues/24)]
 - Show GitHub Copilot session [[link](https://github.com/copilot/tasks/pull/PR_kwDOPmSnws6rzb2N?session_id=2814a809-f401-4f06-8e81-37b51b91847d)]
 - Show GitHub Pull Request that fixes the issue created [link](https://github.com/github-community-projects/breath-of-copilot-universe-2025/pull/25)
 - Merge the PR and the Actions CI/CD should deploy on Pages! If not, you can fix it or use the backup [link](https://turbo-disco-gze28vk.pages.github.io/)
