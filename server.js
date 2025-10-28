@@ -101,7 +101,7 @@ const searchLimiter = rateLimit({
 const monsterLimiter = rateLimit({
     windowMs: 1 * 60 * 1000, // 1 minute
     max: 30, // limit to 30 requests per window per IP
-    message: { error: 'Too many monster requests from this IP, please try again later.' }
+    message: { success: false, error: 'Too many monster requests from this IP, please try again later.' }
 });
 
 // Serve the main page
@@ -173,7 +173,7 @@ app.post('/api/search', searchLimiter, (req, res) => {
     });
 });
 
-// Get monster by ID with security fix and rate limiting
+// Get monster by ID - security fixes: SQL injection prevention, input validation, and rate limiting
 app.get('/api/monster/:id', monsterLimiter, (req, res) => {
     const { id } = req.params;
     
