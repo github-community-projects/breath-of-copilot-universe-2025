@@ -97,6 +97,13 @@ const searchLimiter = rateLimit({
     message: { success: false, error: 'Too many search requests from this IP, please try again later.' }
 });
 
+// Rate limiter for /api/monster/:id (more permissive for individual lookups)
+const monsterLimiter = rateLimit({
+    windowMs: 1 * 60 * 1000, // 1 minute
+    max: 30, // limit to 30 requests per window per IP
+    message: { error: 'Too many monster requests from this IP, please try again later.' }
+});
+
 // Serve the main page
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
@@ -166,8 +173,8 @@ app.post('/api/search', searchLimiter, (req, res) => {
     });
 });
 
-// Get monster by ID with security fix
-app.get('/api/monster/:id', (req, res) => {
+// Get monster by ID with security fix and rate limiting
+app.get('/api/monster/:id', monsterLimiter, (req, res) => {
     const { id } = req.params;
     
     /* 
