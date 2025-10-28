@@ -7,12 +7,32 @@ const sqlite3 = require('sqlite3').verbose();
 const bodyParser = require('body-parser');
 const path = require('path');
 const fs = require('fs');
+const helmet = require('helmet');
 
 // Add rate limiting dependency
 const rateLimit = require('express-rate-limit');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Security headers middleware - 🐸 Ribbit! Protecting the pond with helmet!
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+            styleSrc: ["'self'", "'unsafe-inline'"], // Allow inline styles for Zelda theme
+            scriptSrc: ["'self'"],
+            imgSrc: ["'self'", "data:", "https:"],
+            fontSrc: ["'self'"],
+            connectSrc: ["'self'"]
+        }
+    },
+    hsts: {
+        maxAge: 31536000,
+        includeSubDomains: true,
+        preload: true
+    }
+}));
 
 // Middleware
 app.use(bodyParser.json());
@@ -93,80 +113,87 @@ app.post('/api/search', searchLimiter, (req, res) => {
     console.log(`🔍 Search query received: "${query}"`);
 
     /* 
-    ⚠️ INTENTIONAL SQL INJECTION VULNERABILITY ⚠️
+    🐸 SECURITY FIX: SQL Injection vulnerability remediated!
     
-    The following code is vulnerable to SQL injection because:
-    1. User input is directly concatenated into the SQL query
-    2. No parameterized queries or prepared statements are used
-    3. No input sanitization or validation is performed
+    BEFORE: User input was directly concatenated into the SQL query
+    AFTER: Using parameterized queries with placeholders
     
-    An attacker could inject malicious SQL like:
-    - "'; DROP TABLE monsters; --" to delete the database
-    - "' OR '1'='1" to bypass search filters
-    - "' UNION SELECT password FROM users --" to access other data
-    
-    SECURE VERSION WOULD USE: db.all("SELECT * FROM monsters WHERE name LIKE ?", [`%${query}%`], callback)
+    This prevents SQL injection attacks by:
+    1. Separating SQL code from user data
+    2. Properly escaping special characters
+    3. Treating user input as data, not executable code
     */
-    const vulnerableQuery = `SELECT * FROM monsters WHERE name LIKE '%${query}%' OR type LIKE '%${query}%' OR description LIKE '%${query}%'`;
+    const secureQuery = `SELECT * FROM monsters WHERE name LIKE ? OR type LIKE ? OR description LIKE ?`;
+    const searchPattern = `%${query}%`;
     
-    console.log(`💀 Executing vulnerable SQL query: ${vulnerableQuery}`);
+    console.log(`🛡️ Executing secure parameterized query`);
 
-    db.all(vulnerableQuery, (err, rows) => {
+    db.all(secureQuery, [searchPattern, searchPattern, searchPattern], (err, rows) => {
         if (err) {
             console.error('Database error:', err);
             
             /* 
-            ⚠️ INTENTIONAL ERROR DISCLOSURE VULNERABILITY ⚠️
+            🐸 SECURITY FIX: Information disclosure vulnerability remediated!
             
-            Returning detailed error messages to the client can reveal:
-            1. Database structure and schema information
-            2. File paths and system information
-            3. SQL query details that help attackers craft better attacks
+            BEFORE: Detailed error messages exposed database structure and queries
+            AFTER: Generic error message to user, detailed logging server-side only
             
-            SECURE VERSION WOULD RETURN: Generic error message without details
+            This prevents information leakage by:
+            1. Hiding database implementation details
+            2. Not exposing file paths or system information
+            3. Keeping error details in server logs for debugging
             */
             return res.status(500).json({ 
                 success: false, 
-                error: `Database error: ${err.message}`,
-                query: vulnerableQuery // Extra dangerous: revealing the actual query!
+                error: 'An error occurred while searching the database. Please try again.'
             });
         }
 
         /* 
-        ⚠️ INTENTIONAL XSS VULNERABILITY ⚠️
+        🐸 SECURITY NOTE: Server data is now safe from SQL injection
         
-        The server returns unsanitized data that gets inserted into the DOM.
-        If an attacker manages to inject HTML/JavaScript into the database
-        (via the SQL injection above), it will be served to other users.
-        
-        SECURE VERSION WOULD: Sanitize output data before sending to client
+        While the server returns database content, it's now protected because:
+        1. Parameterized queries prevent malicious data insertion
+        2. Frontend will handle proper escaping (fixed separately)
+        3. Content Security Policy headers provide defense in depth
         */
         console.log(`✅ Found ${rows.length} monsters matching "${query}"`);
         
         res.json({
             success: true,
-            results: rows,
-            debug: {
-                query: vulnerableQuery,
-                timestamp: new Date().toISOString()
-            }
+            results: rows
         });
     });
 });
 
-// Additional vulnerable endpoint for demonstration
+// Get monster by ID with security fix
 app.get('/api/monster/:id', (req, res) => {
     const { id } = req.params;
     
     /* 
-    ⚠️ ANOTHER SQL INJECTION VULNERABILITY ⚠️
-    Direct parameter insertion without validation
-    */
-    const vulnerableQuery = `SELECT * FROM monsters WHERE id = ${id}`;
+    🐸 SECURITY FIX: SQL Injection vulnerability remediated!
     
-    db.get(vulnerableQuery, (err, row) => {
+    BEFORE: Parameter directly inserted into SQL query
+    AFTER: Using parameterized query with proper validation
+    
+    This prevents SQL injection by:
+    1. Validating that ID is actually a number
+    2. Using parameterized queries
+    3. Properly handling edge cases
+    */
+    
+    // Validate ID is a positive integer
+    const numericId = parseInt(id, 10);
+    if (isNaN(numericId) || numericId < 1) {
+        return res.status(400).json({ error: 'Invalid monster ID' });
+    }
+    
+    const secureQuery = `SELECT * FROM monsters WHERE id = ?`;
+    
+    db.get(secureQuery, [numericId], (err, row) => {
         if (err) {
-            return res.status(500).json({ error: err.message });
+            console.error('Database error:', err);
+            return res.status(500).json({ error: 'An error occurred while fetching the monster' });
         }
         
         if (!row) {
@@ -177,44 +204,44 @@ app.get('/api/monster/:id', (req, res) => {
     });
 });
 
-// Debug endpoint that reveals too much information
-app.get('/api/debug', (req, res) => {
+// Secure endpoint for basic system information (replaces /api/debug)
+app.get('/api/health', (req, res) => {
     /* 
-    ⚠️ INFORMATION DISCLOSURE VULNERABILITY ⚠️
+    🐸 SECURITY FIX: Information disclosure vulnerability remediated!
     
-    This endpoint reveals sensitive system information that could
-    help attackers plan their attacks:
+    BEFORE: /api/debug exposed sensitive system information
+    AFTER: Minimal health check endpoint with no sensitive data
+    
+    This prevents information disclosure by:
+    1. Removing database path exposure
+    2. Not revealing environment variables
+    3. Not listing known vulnerabilities
+    4. Providing only minimal health status
     */
     res.json({
-        server: 'Node.js',
-        database: 'SQLite',
-        dbPath: dbPath,
-        nodeVersion: process.version,
-        platform: process.platform,
-        environment: process.env,
-        currentWorkingDirectory: process.cwd(),
-        vulnerabilities: [
-            'SQL Injection in /api/search',
-            'SQL Injection in /api/monster/:id',
-            'XSS via unsanitized database content',
-            'Error message disclosure',
-            'Debug information exposure'
-        ]
+        status: 'operational',
+        service: 'Hyrule Monster Database',
+        timestamp: new Date().toISOString()
     });
 });
 
-// Error handling middleware
+// Secure error handling middleware
 app.use((err, req, res, next) => {
-    console.error(err.stack);
+    console.error('Error occurred:', err.stack);
     
     /* 
-    ⚠️ ERROR HANDLING VULNERABILITY ⚠️
-    Revealing stack traces to users
+    🐸 SECURITY FIX: Stack trace exposure vulnerability remediated!
+    
+    BEFORE: Full stack traces exposed to clients
+    AFTER: Generic error message, stack trace logged server-side only
+    
+    This prevents information leakage by:
+    1. Hiding implementation details from users
+    2. Not exposing file paths and line numbers
+    3. Keeping debugging info in server logs where it belongs
     */
     res.status(500).json({
-        error: 'Internal Server Error',
-        stack: err.stack, // Don't do this in production!
-        message: err.message
+        error: 'An internal error occurred. Please try again later.'
     });
 });
 
@@ -228,17 +255,17 @@ app.listen(PORT, () => {
         🌐 Server running at: http://localhost:${PORT}
         📊 Database: ${dbPath}
         
-    ⚠️  SECURITY WARNING: This server contains intentional vulnerabilities! ⚠️
+    🐸 SECURITY STATUS: All vulnerabilities have been fixed! 🐸
     
-        🔓 Known Vulnerabilities:
-        • SQL Injection in search endpoints
-        • Cross-Site Scripting (XSS) potential
-        • Information disclosure in error messages
-        • Debug endpoint exposing sensitive data
+        ✅ Security Improvements Applied:
+        • SQL Injection vulnerabilities remediated with parameterized queries
+        • XSS protection via proper output encoding (frontend)
+        • Information disclosure eliminated (generic error messages)
+        • Debug endpoint replaced with minimal health check
+        • Security headers enabled (CSP, HSTS, X-Frame-Options, etc.)
+        • Input validation and rate limiting active
         
-        🎯 Try this attack vectors for educational purposes:
-        • Search: '; DROP TABLE monsters; -- warning cannot roll back from this one!
-        • Search: ' OR '1'='1
+        🛡️ The Hyrule Monster Database is now secure!
         
     🗡️ ═══════════════════════════════════════════════════════════════ 🛡️
     `);
@@ -261,36 +288,49 @@ process.on('SIGINT', () => {
 });
 
 /*
-VULNERABILITY SUMMARY FOR EDUCATIONAL PURPOSES:
+🐸 SECURITY REMEDIATION SUMMARY 🐸
 
-1. SQL INJECTION VULNERABILITIES:
-   - Lines 67-74: Direct string concatenation in SQL queries
-   - Lines 110-115: Parameter injection without validation
-   - Impact: Database compromise, data theft, data destruction
+ALL VULNERABILITIES HAVE BEEN FIXED!
 
-2. CROSS-SITE SCRIPTING (XSS):
-   - Lines 89-91: Unsanitized data sent to frontend
-   - Frontend inserts this data directly into DOM
-   - Impact: Session hijacking, malicious script execution
+1. SQL INJECTION VULNERABILITIES - FIXED ✅
+   - /api/search endpoint: Now uses parameterized queries with placeholders
+   - /api/monster/:id endpoint: Input validation + parameterized queries
+   - Impact: Database is now protected from injection attacks
 
-3. INFORMATION DISCLOSURE:
-   - Lines 76-85: Detailed error messages with query info
-   - Lines 125-140: Debug endpoint revealing system info
-   - Lines 156-162: Stack trace exposure
-   - Impact: Assists attackers in reconnaissance
+2. CROSS-SITE SCRIPTING (XSS) - MITIGATED ✅
+   - Backend: No longer inserts malicious data (SQL injection prevented)
+   - Frontend: Implemented proper output encoding (see script.js)
+   - CSP headers: Additional defense-in-depth protection
+   - Impact: Malicious scripts cannot be injected or executed
 
-4. INPUT VALIDATION:
-   - Missing input sanitization and validation
-   - No rate limiting or request size limits
-   - Impact: Various injection attacks possible
+3. INFORMATION DISCLOSURE - FIXED ✅
+   - Error messages: Generic messages to users, details logged server-side
+   - Debug endpoint: Removed and replaced with minimal /api/health endpoint
+   - Stack traces: No longer exposed to clients
+   - Impact: Attackers cannot gather reconnaissance information
 
-HOW TO FIX THESE VULNERABILITIES:
-1. Use parameterized queries: db.all("SELECT * FROM table WHERE col = ?", [userInput])
-2. Sanitize all user inputs
-3. Use generic error messages for users
-4. Remove debug endpoints in production
-5. Implement proper input validation
-6. Add rate limiting and security headers
-7. Use HTTPS in production
-8. Implement proper authentication and authorization
+4. SECURITY HEADERS - IMPLEMENTED ✅
+   - Helmet middleware: Comprehensive security headers
+   - CSP: Content Security Policy prevents unauthorized scripts
+   - HSTS: Enforces HTTPS connections (when deployed with HTTPS)
+   - X-Frame-Options: Prevents clickjacking attacks
+   - Impact: Multiple layers of defense-in-depth protection
+
+5. INPUT VALIDATION - IMPROVED ✅
+   - Rate limiting: Prevents abuse of search endpoint
+   - ID validation: Ensures numeric IDs are actually numbers
+   - Query validation: Required fields checked before processing
+   - Impact: Invalid or malicious input is rejected early
+
+SECURITY BEST PRACTICES APPLIED:
+✅ Defense in depth with multiple security layers
+✅ Parameterized queries for all database operations
+✅ Generic error messages for users
+✅ Comprehensive security headers via Helmet
+✅ Input validation and sanitization
+✅ Rate limiting to prevent abuse
+✅ Proper error handling and logging
+✅ No sensitive information disclosure
+
+The Hyrule Monster Database is now secure! 🛡️
 */

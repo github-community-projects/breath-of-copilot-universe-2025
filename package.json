@@ -16,10 +16,11 @@
   "author": "GitHub Copilot",
   "license": "MIT",
   "dependencies": {
-    "express": "^5.1.0",
-    "sqlite3": "^5.1.6",
     "body-parser": "^1.20.3",
-    "express-rate-limit": "^8.1.0"
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.1.0",
+    "helmet": "^8.1.0",
+    "sqlite3": "^5.1.6"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
