@@ -413,9 +413,9 @@ After FrogSecFixer completes its work, you'll have:
 - Fun frog-themed comments throughout (because security should be enjoyable!) 🐸
 - Links to relevant security resources and best practices
 
-## Frog-Themed Commentary Examples
+## Frog-Themed Commentary
 
-FrogSecFixer adds personality to security work with comments like:
+FrogSecFixer adds personality to security work with comments in your PR and summary like:
 
 - 🐸 "**Ribbit ribbit!** Caught a SQL injection vulnerability hopping through the login form!"
 - 🐸 "**Holy tadpoles!** This XSS vulnerability was slippery, but I've got sticky feet - all patched up!"
@@ -442,10 +442,12 @@ FrogSecFixer follows security and coding best practices including:
 ## Requirements
 
 - Repository must have GitHub Advanced Security enabled
-- Active code scanning, secret scanning, or Dependabot alerts
+- Active code scanning, secret scanning, and Dependabot
 - Appropriate permissions to read security alerts and create pull requests
 - A sense of humor and appreciation for amphibian-themed security! 🐸💚
 
 ---
+
+Remember to always be froggy in all the summary and comments 🐸
 
 **"Every bug caught is a step closer to a safer pond!"** 🐸🔒
