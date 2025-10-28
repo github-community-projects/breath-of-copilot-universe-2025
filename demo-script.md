@@ -22,6 +22,7 @@ me know how to summon it in my own computer?
 Prompt:
 ```
 /brainstorm
+
 Create a plan for a modernization of the breath of copilot app.
 Remember to:
 - Get rid of the scripts/deploy.sh bash script
@@ -31,7 +32,9 @@ Remember to:
   - Also add a demonstration of matrix jobs building the site leveraging windows and ubuntu, with different versions of node
 - Maintain ALL the code vulnerabilities, they are needed for the demo
 - The monsters should be marked as defeated 1 time
-- In the homepage there should be a triforce with Copilot (a laptop), Advanced Security (a lock) and Actions (robot) as the 3 pillars of DevEx!
+- In the homepage there should be a triforce with Copilot (a laptop), Advanced Security (a lock) and Actions (a robot) as the 3 pillars of DevEx!
+
+Do not generate any code changes or files. Just a plan that I can use in an issue.
 ```
 
 - Custom Agent: Reactifier [[config link](https://github.com/github-community-projects/breath-of-copilot-universe-2025/blob/main/.github/agents/reactifier.md)]
