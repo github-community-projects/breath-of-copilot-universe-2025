@@ -69,11 +69,15 @@ This application demonstrates security best practices:
    npm install
    ```
 
-3. **Start the server**:
+3. **Start the development server**:
    ```bash
    npm start
    # or for development with auto-reload:
    npm run dev
+
+   # if there's a process already running on port 3000
+   lsof -i tcp:3000
+   kill -9 <PID>
    ```
 
 4. **Open your browser** and visit:
@@ -86,8 +90,10 @@ This application demonstrates security best practices:
 The app is automatically deployed to GitHub Pages using GitHub Actions whenever changes are pushed to the main branch. 
 
 The deployment process:
+- Builds the application on multiple platforms (Ubuntu, Windows) with different Node.js versions (18, 20, 22)
 - Installs dependencies
 - Builds the application from the `src/` folder
+- Creates artifact attestations for security and provenance
 - Deploys static files to GitHub Pages
 
 ### Manual Build
@@ -131,13 +137,16 @@ This will create a `dist/` folder with all the built files ready for deployment.
 ## 🗂️ File Structure
 
 ```
-├── index.html          # Main web page
-├── style.css           # Zelda-themed styling
-├── script.js           # Frontend JavaScript (XSS protection with HTML escaping)
-├── server.js           # Node.js backend (secure with parameterized queries)
+├── src/
+│   ├── index.html      # Main web page
+│   ├── style.css       # Zelda-themed styling
+│   ├── script.js       # Frontend JavaScript (XSS protection with HTML escaping)
+│   └── server.js       # Node.js backend (secure with parameterized queries)
+├── .github/
+│   └── workflows/
+│       └── deploy.yml  # GitHub Actions deployment workflow
 ├── package.json        # Dependencies and scripts
 ├── monsters.db         # SQLite database (generated automatically)
-├── scripts/            # Deployment and utility scripts
 └── README.md           # This file
 ```
 
@@ -161,11 +170,11 @@ This will create a `dist/` folder with all the built files ready for deployment.
 
 | Security Feature | Implementation | Location | Benefit |
 |-----------------|----------------|----------|---------|
-| SQL Injection Prevention | Parameterized queries | `server.js` | Prevents database attacks |
-| XSS Prevention | HTML entity encoding | `script.js` | Prevents script injection |
-| Input Validation | Length & type checks | `server.js` | Prevents malformed requests |
-| Information Disclosure Prevention | Generic errors | `server.js` | Protects system information |
-| Rate Limiting | Express middleware | `server.js` | Prevents DoS attacks |
+| SQL Injection Prevention | Parameterized queries | `src/server.js` | Prevents database attacks |
+| XSS Prevention | HTML entity encoding | `src/script.js` | Prevents script injection |
+| Input Validation | Length & type checks | `src/server.js` | Prevents malformed requests |
+| Information Disclosure Prevention | Generic errors | `src/server.js` | Protects system information |
+| Rate Limiting | Express middleware | `src/server.js` | Prevents DoS attacks |
 
 ## 🎓 Security Best Practices Demonstrated
 

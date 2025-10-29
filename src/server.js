@@ -17,7 +17,7 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static('.'));
+app.use(express.static(__dirname));
 
 // Initialize SQLite database
 const dbPath = path.join(__dirname, 'monsters.db');
@@ -43,18 +43,18 @@ function initializeDatabase() {
                 console.log('🏗️  Populating monster database...');
                 
                 const monsters = [
-                    ['Ganondorf', 'Boss Monster', 'The King of Darkness himself. His power corrupts all of Hyrule.', 100, 95, '👹'],
-                    ['Dark Link', 'Shadow Boss', 'Link\'s dark reflection, born from shadow and malice.', 90, 85, '🔗'],
-                    ['Lynel', 'Elite Monster', 'Centaur-like beasts with incredible strength and magical prowess.', 80, 75, '👺'],
-                    ['King Dodongo', 'Fire Boss', 'A massive dinosaur-like creature that breathes fire and swallows bombs.', 70, 80, '🐉'],
-                    ['Poe', 'Ghost Monster', 'Ghostly spirits that carry lanterns and hunt in the darkness.', 40, 10, '👻'],
-                    ['Skulltula', 'Arachnid Monster', 'Giant spiders that lurk in dark corners and abandoned places.', 35, 15, '🕷️'],
-                    ['Bokoblin', 'Common Monster', 'Pig-faced creatures that serve Ganon with crude weapons.', 25, 20, '🧟'],
-                    ['Keese', 'Flying Monster', 'Demonic bats that swarm in caves and attack in groups.', 15, 5, '🦇'],
-                    ['Moblin', 'Large Monster', 'Massive pig-like creatures with clubs and spears.', 55, 45, '👹'],
-                    ['Redead', 'Undead Monster', 'Zombie-like creatures that paralyze victims with their screams.', 30, 25, '🧟‍♂️'],
-                    ['Gibdo', 'Mummy Monster', 'Mummified undead that shamble through ancient ruins.', 35, 30, '🧝‍♂️'],
-                    ['Phantom Ganon', 'Phantom Boss', 'A ghostly projection of Ganondorf\'s power and malice.', 85, 70, '👤']
+                    ['Ganondorf', 'Boss Monster (Defeated)', 'The King of Darkness himself. His power corrupts all of Hyrule.', 100, 95, '💀'],
+                    ['Dark Link', 'Shadow Boss (Defeated)', 'Link\'s dark reflection, born from shadow and malice.', 90, 85, '💀'],
+                    ['Lynel', 'Elite Monster (Defeated)', 'Centaur-like beasts with incredible strength and magical prowess.', 80, 75, '💀'],
+                    ['King Dodongo', 'Fire Boss (Defeated)', 'A massive dinosaur-like creature that breathes fire and swallows bombs.', 70, 80, '💀'],
+                    ['Poe', 'Ghost Monster (Defeated)', 'Ghostly spirits that carry lanterns and hunt in the darkness.', 40, 10, '💀'],
+                    ['Skulltula', 'Arachnid Monster (Defeated)', 'Giant spiders that lurk in dark corners and abandoned places.', 35, 15, '💀'],
+                    ['Bokoblin', 'Common Monster (Defeated)', 'Pig-faced creatures that serve Ganon with crude weapons.', 25, 20, '💀'],
+                    ['Keese', 'Flying Monster (Defeated)', 'Demonic bats that swarm in caves and attack in groups.', 15, 5, '💀'],
+                    ['Moblin', 'Large Monster (Defeated)', 'Massive pig-like creatures with clubs and spears.', 55, 45, '💀'],
+                    ['Redead', 'Undead Monster (Defeated)', 'Zombie-like creatures that paralyze victims with their screams.', 30, 25, '💀'],
+                    ['Gibdo', 'Mummy Monster (Defeated)', 'Mummified undead that shamble through ancient ruins.', 35, 30, '💀'],
+                    ['Phantom Ganon', 'Phantom Boss (Defeated)', 'A ghostly projection of Ganondorf\'s power and malice.', 85, 70, '💀']
                 ];
 
                 const stmt = db.prepare("INSERT INTO monsters (name, type, description, power, defense, emoji) VALUES (?, ?, ?, ?, ?, ?)");
