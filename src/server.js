@@ -84,8 +84,15 @@ const apiLimiter = rateLimit({
     message: { error: 'Too many API requests from this IP, please try again later.' }
 });
 
+// Rate limiter for the main page (index.html)
+const mainPageLimiter = rateLimit({
+    windowMs: 1 * 60 * 1000, // 1 minute
+    max: 20, // limit to 20 requests per window per IP
+    message: { error: 'Too many requests for the main page from this IP, please try again later.' }
+});
+
 // Serve the main page
-app.get('/', (req, res) => {
+app.get('/', mainPageLimiter, (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
