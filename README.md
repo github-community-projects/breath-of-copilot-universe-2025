@@ -64,7 +64,7 @@ This application demonstrates security best practices:
 ## 🏰 Quick Start
 
 ### Prerequisites
-- Node.js (v18 or higher)
+- Node.js (v20.19 or higher, or v22.12+)
 - npm
 
 ### Installation & Development
@@ -108,7 +108,7 @@ This application demonstrates security best practices:
 The app is automatically deployed to GitHub Pages using GitHub Actions whenever changes are pushed to the main branch. 
 
 The deployment process:
-- Builds the application on multiple platforms (Ubuntu, Windows) with different Node.js versions (18, 20, 22)
+- Builds the application on multiple platforms (Ubuntu, Windows) with different Node.js versions (20, 22)
 - Installs dependencies
 - Builds the application from the `src/` folder
 - Creates artifact attestations for security and provenance
