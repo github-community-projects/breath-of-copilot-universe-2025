@@ -4,6 +4,7 @@ import react from '@vitejs/plugin-react';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  base: '/breath-of-copilot-universe-2025/',
   server: {
     port: 3001,
     proxy: {
