@@ -1,6 +1,6 @@
 # 🗡️ Legend of Zelda Monster Database ⚔️
 
-A modern React-based web application featuring the dark creatures of Hyrule Kingdom, with a full JRPG-style adventure mode. Built with secure coding practices and the latest React ecosystem.
+A modern React-based web application featuring the dark creatures of Hyrule Kingdom, with a full JRPG-style adventure mode. Built with secure coding practices and a modern React ecosystem (React 18, Vite 4, React Router 6).
 
 ## 🎯 Features
 
@@ -219,8 +219,8 @@ This will create a `dist/` folder with optimized production files ready for depl
 ## 🛠️ Technical Details
 
 ### Tech Stack
-- **Frontend**: React 18+ with hooks, React Router v6 for navigation
-- **Build Tool**: Vite (fast HMR, optimized production builds)
+- **Frontend**: React 18 with hooks, React Router v6 for navigation
+- **Build Tool**: Vite 5.x (fast HMR, optimized production builds)
 - **Backend**: Node.js with Express 5
 - **Database**: SQLite3 with secure parameterized queries
 - **Styling**: Modern CSS with Zelda theme, responsive design
@@ -235,7 +235,7 @@ This will create a `dist/` folder with optimized production files ready for depl
 - RESTful API design
 
 ### Frontend (React)
-- Modern React 18+ with functional components and hooks
+- Modern React 18 with functional components and hooks
 - React Router for client-side routing (Monster Database vs Adventure Mode)
 - Component-based architecture for maintainability
 - **Secure search results display** with HTML escaping in React components
