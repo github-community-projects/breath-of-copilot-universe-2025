@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function SearchSection({ escapeHtml }) {
+function SearchSection() {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -78,13 +78,13 @@ function SearchSection({ escapeHtml }) {
           
           {searchResults && searchResults.success && searchResults.results.length > 0 && (
             <div>
-              <h3>Search Results for "{escapeHtml(searchResults.query)}":</h3>
-              {searchResults.results.map((monster, index) => (
-                <div key={index} className="search-result">
-                  <strong>{escapeHtml(monster.name)}</strong><br />
-                  <em>{escapeHtml(monster.type)}</em><br />
-                  {escapeHtml(monster.description)}<br />
-                  <small>Power: {escapeHtml(String(monster.power))}, Defense: {escapeHtml(String(monster.defense))}</small>
+              <h3>Search Results for "{searchResults.query}":</h3>
+              {searchResults.results.map((monster) => (
+                <div key={monster.id} className="search-result">
+                  <strong>{monster.name}</strong><br />
+                  <em>{monster.type}</em><br />
+                  {monster.description}<br />
+                  <small>Power: {monster.power}, Defense: {monster.defense}</small>
                 </div>
               ))}
             </div>
@@ -92,14 +92,14 @@ function SearchSection({ escapeHtml }) {
           
           {searchResults && searchResults.success && searchResults.results.length === 0 && (
             <div className="search-result">
-              <strong>No monsters found matching "{escapeHtml(searchResults.query)}"</strong><br />
+              <strong>No monsters found matching "{searchResults.query}"</strong><br />
               Try searching for: Ganondorf, Dark Link, Lynel, Bokoblin, etc.
             </div>
           )}
           
           {searchResults && !searchResults.success && (
             <div className="error">
-              Search failed: {escapeHtml(searchResults.error)}
+              Search failed: {searchResults.error}
             </div>
           )}
         </div>

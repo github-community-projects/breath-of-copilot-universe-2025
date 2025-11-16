@@ -1,8 +1,8 @@
 import React from 'react';
 import PlayerStats from './PlayerStats';
 
-function BattleScene({ player, enemy, battleLog, onAttack, onUsePotion, onFlee }) {
-  const enemyHpPercentage = (enemy.currentHp / enemy.hp) * 100;
+function BattleScene({ player, enemy, battleLog, onAttack, onUsePotion, onFlee, isProcessingAction }) {
+  const enemyHpPercentage = enemy.hp > 0 ? (enemy.currentHp / enemy.hp) * 100 : 0;
 
   return (
     <div className="battle-scene">
@@ -30,7 +30,14 @@ function BattleScene({ player, enemy, battleLog, onAttack, onUsePotion, onFlee }
               <div className="stat-label">
                 <span>HP: {enemy.currentHp}/{enemy.hp}</span>
               </div>
-              <div className="stat-bar-bg">
+              <div 
+                className="stat-bar-bg" 
+                role="progressbar" 
+                aria-valuenow={enemy.currentHp} 
+                aria-valuemin="0" 
+                aria-valuemax={enemy.hp}
+                aria-label={`${enemy.name} Health Points`}
+              >
                 <div 
                   className="stat-bar-fill enemy-hp" 
                   style={{ width: `${enemyHpPercentage}%` }}
@@ -49,7 +56,7 @@ function BattleScene({ player, enemy, battleLog, onAttack, onUsePotion, onFlee }
           <h4>⚔️ Battle Log</h4>
           <div className="battle-log-content">
             {battleLog.map((message, index) => (
-              <div key={index} className="battle-log-message">
+              <div key={`battle-log-${index}-${message.substring(0, 20)}`} className="battle-log-message">
                 {message}
               </div>
             ))}
@@ -60,21 +67,24 @@ function BattleScene({ player, enemy, battleLog, onAttack, onUsePotion, onFlee }
           <button 
             className="action-btn primary" 
             onClick={onAttack}
-            disabled={player.hp <= 0 || enemy.currentHp <= 0}
+            disabled={player.hp <= 0 || enemy.currentHp <= 0 || isProcessingAction}
+            aria-label="Attack enemy"
           >
             ⚔️ Attack
           </button>
           <button 
             className="action-btn" 
             onClick={onUsePotion}
-            disabled={player.potions <= 0 || player.hp <= 0 || enemy.currentHp <= 0}
+            disabled={player.potions <= 0 || player.hp <= 0 || enemy.currentHp <= 0 || isProcessingAction}
+            aria-label="Use healing potion"
           >
             💚 Use Potion ({player.potions})
           </button>
           <button 
             className="action-btn danger" 
             onClick={onFlee}
-            disabled={player.hp <= 0 || enemy.currentHp <= 0}
+            disabled={player.hp <= 0 || enemy.currentHp <= 0 || isProcessingAction}
+            aria-label="Flee from battle"
           >
             💨 Flee
           </button>

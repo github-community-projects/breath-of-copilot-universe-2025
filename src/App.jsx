@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import React from 'react';
+import { HashRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Header from './components/Header';
 import MonsterDatabase from './components/MonsterDatabase';
 import GameMode from './components/GameMode';
@@ -12,8 +12,8 @@ function App() {
         <Header />
         <nav>
           <div className="nav-container">
-            <Link to="/" className="nav-btn">🗡️ Monster Database</Link>
-            <Link to="/game" className="nav-btn">⚔️ Adventure Mode</Link>
+            <Link to="/" className="nav-btn" aria-label="Navigate to Monster Database">🗡️ Monster Database</Link>
+            <Link to="/game" className="nav-btn" aria-label="Navigate to Adventure Mode">⚔️ Adventure Mode</Link>
           </div>
         </nav>
         <Routes>

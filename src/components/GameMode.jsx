@@ -9,6 +9,7 @@ function GameMode() {
   const [currentEnemy, setCurrentEnemy] = useState(null);
   const [battleLog, setBattleLog] = useState([]);
   const [gameMessage, setGameMessage] = useState('');
+  const [isProcessingAction, setIsProcessingAction] = useState(false);
 
   // Available monsters for encounters
   const monsters = [
@@ -27,7 +28,16 @@ function GameMode() {
   useEffect(() => {
     const savedPlayer = localStorage.getItem('hyrule-player');
     if (savedPlayer) {
-      setPlayer(JSON.parse(savedPlayer));
+      try {
+        const parsedPlayer = JSON.parse(savedPlayer);
+        // Validate basic structure
+        if (parsedPlayer && typeof parsedPlayer === 'object' && parsedPlayer.name && typeof parsedPlayer.level === 'number') {
+          setPlayer(parsedPlayer);
+        }
+      } catch (error) {
+        console.error('Failed to parse saved player data:', error);
+        localStorage.removeItem('hyrule-player');
+      }
     }
   }, []);
 
@@ -60,9 +70,18 @@ function GameMode() {
   const loadPlayer = () => {
     const savedPlayer = localStorage.getItem('hyrule-player');
     if (savedPlayer) {
-      setPlayer(JSON.parse(savedPlayer));
-      setGameState('exploring');
-      setGameMessage('🗡️ Welcome back, hero! Your adventure continues...');
+      try {
+        const parsedPlayer = JSON.parse(savedPlayer);
+        // Validate basic structure
+        if (parsedPlayer && typeof parsedPlayer === 'object' && parsedPlayer.name && typeof parsedPlayer.level === 'number') {
+          setPlayer(parsedPlayer);
+          setGameState('exploring');
+          setGameMessage('🗡️ Welcome back, hero! Your adventure continues...');
+        }
+      } catch (error) {
+        console.error('Failed to parse saved player data:', error);
+        localStorage.removeItem('hyrule-player');
+      }
     }
   };
 
@@ -103,7 +122,9 @@ function GameMode() {
   };
 
   const playerAttack = () => {
-    if (!currentEnemy || gameState !== 'battle') return;
+    if (!currentEnemy || gameState !== 'battle' || isProcessingAction) return;
+    
+    setIsProcessingAction(true);
 
     const damage = calculateDamage(player, currentEnemy);
     const newEnemyHp = Math.max(0, currentEnemy.currentHp - damage);
@@ -117,11 +138,13 @@ function GameMode() {
       // Enemy defeated
       setTimeout(() => {
         victorySequence(updatedEnemy);
+        setIsProcessingAction(false);
       }, 1000);
     } else {
       // Enemy counterattacks
       setTimeout(() => {
         enemyAttack(updatedEnemy);
+        setIsProcessingAction(false);
       }, 1000);
     }
   };
@@ -142,7 +165,9 @@ function GameMode() {
   };
 
   const usePotion = () => {
-    if (player.potions <= 0 || gameState !== 'battle') return;
+    if (player.potions <= 0 || gameState !== 'battle' || isProcessingAction) return;
+    
+    setIsProcessingAction(true);
 
     const healAmount = Math.floor(player.maxHp * 0.5);
     const newHp = Math.min(player.maxHp, player.hp + healAmount);
@@ -158,11 +183,14 @@ function GameMode() {
     // Enemy still attacks
     setTimeout(() => {
       enemyAttack(currentEnemy);
+      setIsProcessingAction(false);
     }, 1000);
   };
 
   const flee = () => {
-    if (gameState !== 'battle') return;
+    if (gameState !== 'battle' || isProcessingAction) return;
+    
+    setIsProcessingAction(true);
 
     const fleeChance = Math.random();
     if (fleeChance > 0.5) {
@@ -172,63 +200,89 @@ function GameMode() {
         setCurrentEnemy(null);
         setBattleLog([]);
         setGameMessage('You escaped safely, but gained no experience.');
+        setIsProcessingAction(false);
       }, 1500);
     } else {
       setBattleLog(prev => [...prev, `⚠️ You couldn't escape!`]);
       setTimeout(() => {
         enemyAttack(currentEnemy);
+        setIsProcessingAction(false);
       }, 1000);
     }
   };
 
   const victorySequence = (defeatedEnemy) => {
     const expGained = defeatedEnemy.exp;
-    const newExp = player.exp + expGained;
+    let totalExp = player.exp + expGained;
     let newLevel = player.level;
     let newExpToNext = player.expToNext;
     let leveledUp = false;
+    let maxHp = player.maxHp;
+    let power = player.power;
+    let defense = player.defense;
+    let potions = player.potions;
+    let hp = player.hp;
+    const levelUps = [];
 
-    // Check for level up
-    if (newExp >= player.expToNext) {
-      newLevel = player.level + 1;
-      newExpToNext = Math.floor(player.expToNext * 1.5);
+    // Level up as many times as possible
+    while (totalExp >= newExpToNext) {
+      totalExp -= newExpToNext;
+      newLevel += 1;
+      const oldMaxHp = maxHp;
+      const oldPower = power;
+      const oldDefense = defense;
+      
+      maxHp = Math.floor(maxHp * 1.2);
+      power = Math.floor(power * 1.15);
+      defense = Math.floor(defense * 1.15);
+      potions = Math.min(potions + 1, 5);
+      hp = Math.min(hp, maxHp);
+      
+      newExpToNext = Math.floor(newExpToNext * 1.5);
       leveledUp = true;
+      
+      levelUps.push({
+        level: newLevel,
+        oldMaxHp,
+        newMaxHp: maxHp,
+        oldPower,
+        newPower: power,
+        oldDefense,
+        newDefense: defense,
+      });
     }
 
     const updatedPlayer = {
       ...player,
-      exp: newExp,
+      exp: totalExp,
       level: newLevel,
       expToNext: newExpToNext,
       victories: player.victories + 1,
-      hp: player.hp, // Keep current HP
+      maxHp,
+      power,
+      defense,
+      potions,
+      hp,
     };
 
-    // Stat increases on level up
+    // Build battle log
+    const logMessages = [
+      `🎉 Victory! ${defeatedEnemy.name} has been defeated!`,
+      `⭐ You gained ${expGained} EXP!`
+    ];
+    
     if (leveledUp) {
-      updatedPlayer.maxHp = Math.floor(player.maxHp * 1.2);
-      updatedPlayer.hp = Math.min(updatedPlayer.hp, updatedPlayer.maxHp);
-      updatedPlayer.power = Math.floor(player.power * 1.15);
-      updatedPlayer.defense = Math.floor(player.defense * 1.15);
-      updatedPlayer.potions = Math.min(player.potions + 1, 5);
-      
-      setBattleLog(prev => [
-        ...prev,
-        `🎉 Victory! ${defeatedEnemy.name} has been defeated!`,
-        `⭐ You gained ${expGained} EXP!`,
-        `🎊 LEVEL UP! You are now level ${newLevel}!`,
-        `📈 Max HP: ${player.maxHp} → ${updatedPlayer.maxHp}`,
-        `⚡ Power: ${player.power} → ${updatedPlayer.power}`,
-        `🛡️ Defense: ${player.defense} → ${updatedPlayer.defense}`,
-      ]);
+      levelUps.forEach((levelUp) => {
+        logMessages.push(`🎊 LEVEL UP! You are now level ${levelUp.level}!`);
+        logMessages.push(`📈 Max HP: ${levelUp.oldMaxHp} → ${levelUp.newMaxHp}`);
+        logMessages.push(`⚡ Power: ${levelUp.oldPower} → ${levelUp.newPower}`);
+        logMessages.push(`🛡️ Defense: ${levelUp.oldDefense} → ${levelUp.newDefense}`);
+      });
     } else {
-      setBattleLog(prev => [
-        ...prev,
-        `🎉 Victory! ${defeatedEnemy.name} has been defeated!`,
-        `⭐ You gained ${expGained} EXP! (${newExp}/${player.expToNext})`,
-      ]);
+      logMessages.push(`EXP Progress: ${updatedPlayer.exp}/${updatedPlayer.expToNext}`);
     }
-
+    
+    setBattleLog(prev => [...prev, ...logMessages]);
     setPlayer(updatedPlayer);
     
     setTimeout(() => {
@@ -314,6 +368,7 @@ function GameMode() {
           onAttack={playerAttack}
           onUsePotion={usePotion}
           onFlee={flee}
+          isProcessingAction={isProcessingAction}
         />
       )}
     </div>

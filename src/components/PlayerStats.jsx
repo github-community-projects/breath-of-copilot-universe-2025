@@ -1,8 +1,8 @@
 import React from 'react';
 
 function PlayerStats({ player }) {
-  const expPercentage = (player.exp / player.expToNext) * 100;
-  const hpPercentage = (player.hp / player.maxHp) * 100;
+  const expPercentage = player.expToNext > 0 ? (player.exp / player.expToNext) * 100 : 0;
+  const hpPercentage = player.maxHp > 0 ? (player.hp / player.maxHp) * 100 : 0;
 
   return (
     <div className="player-stats-panel">
@@ -12,7 +12,14 @@ function PlayerStats({ player }) {
         <div className="stat-label">
           <span>❤️ HP: {player.hp}/{player.maxHp}</span>
         </div>
-        <div className="stat-bar-bg">
+        <div 
+          className="stat-bar-bg" 
+          role="progressbar" 
+          aria-valuenow={player.hp} 
+          aria-valuemin="0" 
+          aria-valuemax={player.maxHp}
+          aria-label="Health Points"
+        >
           <div 
             className="stat-bar-fill hp-bar" 
             style={{ width: `${hpPercentage}%` }}
@@ -24,7 +31,14 @@ function PlayerStats({ player }) {
         <div className="stat-label">
           <span>⭐ EXP: {player.exp}/{player.expToNext}</span>
         </div>
-        <div className="stat-bar-bg">
+        <div 
+          className="stat-bar-bg" 
+          role="progressbar" 
+          aria-valuenow={player.exp} 
+          aria-valuemin="0" 
+          aria-valuemax={player.expToNext}
+          aria-label="Experience Points"
+        >
           <div 
             className="stat-bar-fill exp-bar" 
             style={{ width: `${expPercentage}%` }}

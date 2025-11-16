@@ -1,19 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import MonsterCard from './MonsterCard';
 import SearchSection from './SearchSection';
-
-// 🐸 SECURITY FIX: HTML sanitization function to prevent XSS
-function escapeHtml(unsafe) {
-  if (typeof unsafe !== 'string') {
-    return unsafe;
-  }
-  return unsafe
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
 
 function MonsterDatabase() {
   const [activeTab, setActiveTab] = useState('all');
@@ -48,11 +35,15 @@ function MonsterDatabase() {
 
   // Konami code easter egg
   useEffect(() => {
-    let konamiCode = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
+    const konamiCode = [
+      'ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown',
+      'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight',
+      'b', 'a'
+    ];
     let konamiIndex = 0;
 
     const handleKeyDown = (e) => {
-      if (e.keyCode === konamiCode[konamiIndex]) {
+      if (e.key === konamiCode[konamiIndex]) {
         konamiIndex++;
         if (konamiIndex === konamiCode.length) {
           document.body.style.filter = 'hue-rotate(120deg)';
@@ -73,6 +64,8 @@ function MonsterDatabase() {
 
   // Floating triforce effect
   useEffect(() => {
+    const activeIntervals = [];
+    
     const createFloatingTriforce = () => {
       const triforce = document.createElement('div');
       triforce.innerHTML = '🔺';
@@ -92,18 +85,32 @@ function MonsterDatabase() {
       
       const float = setInterval(() => {
         position -= speed;
-        triforce.style.top = position + 'px';
-        triforce.style.transform = `rotate(${position * 0.1}deg)`;
+        if (triforce.parentNode) {
+          triforce.style.top = position + 'px';
+          triforce.style.transform = `rotate(${position * 0.1}deg)`;
+        }
         
         if (position < -50) {
           clearInterval(float);
-          document.body.removeChild(triforce);
+          if (triforce.parentNode) {
+            document.body.removeChild(triforce);
+          }
+          const index = activeIntervals.indexOf(float);
+          if (index > -1) {
+            activeIntervals.splice(index, 1);
+          }
         }
       }, 16);
+      
+      activeIntervals.push(float);
     };
 
     const interval = setInterval(createFloatingTriforce, 3000);
-    return () => clearInterval(interval);
+    
+    return () => {
+      clearInterval(interval);
+      activeIntervals.forEach(intervalId => clearInterval(intervalId));
+    };
   }, []);
 
   const handleTabChange = (tab) => {
@@ -116,7 +123,7 @@ function MonsterDatabase() {
   };
 
   const handleMonsterClick = (monster) => {
-    alert(`🗡️ You encountered ${escapeHtml(monster.name)}!\n\nType: ${escapeHtml(monster.type)}\n\n${escapeHtml(monster.description)}`);
+    alert(`🗡️ You encountered ${monster.name}!\n\nType: ${monster.type}\n\n${monster.description}`);
   };
 
   return (
@@ -144,7 +151,7 @@ function MonsterDatabase() {
       </div>
 
       {/* Search Section */}
-      {showSearch && <SearchSection escapeHtml={escapeHtml} />}
+      {showSearch && <SearchSection />}
 
       {/* Monster Gallery */}
       {!showSearch && (
