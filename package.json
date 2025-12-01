@@ -39,6 +39,6 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "nodemon": "^3.1.11",
     "rimraf": "^6.1.2",
-    "vite": "^7.2.4"
+    "vite": "^7.2.6"
   }
 }
