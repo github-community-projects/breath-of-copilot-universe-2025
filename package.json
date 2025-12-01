@@ -20,7 +20,7 @@
   "author": "GitHub Copilot",
   "license": "MIT",
   "dependencies": {
-    "body-parser": "^1.20.3",
+    "body-parser": "^2.2.1",
     "express": "^5.1.0",
     "express-rate-limit": "^8.2.1",
     "react": "^19.2.0",
