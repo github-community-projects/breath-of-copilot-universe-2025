@@ -28,6 +28,9 @@
     "react-router-dom": "^7.13.1",
     "sqlite3": "^5.1.7"
   },
+  "overrides": {
+    "tar": ">=7.5.8"
+  },
   "devDependencies": {
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
