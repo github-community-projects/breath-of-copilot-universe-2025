@@ -19,6 +19,9 @@
   ],
   "author": "GitHub Copilot",
   "license": "MIT",
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  },
   "dependencies": {
     "body-parser": "^2.2.2",
     "express": "^5.2.1",
@@ -29,7 +32,7 @@
     "sqlite3": "^5.1.7"
   },
   "overrides": {
-    "tar": ">=7.5.8"
+    "tar": "^7.5.9"
   },
   "devDependencies": {
     "@types/react": "^19.2.14",
