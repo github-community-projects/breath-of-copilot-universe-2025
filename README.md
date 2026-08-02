@@ -1,6 +1,6 @@
 # 🗡️ Legend of Zelda Monster Database ⚔️
 
-A modern React-based web application featuring the dark creatures of Hyrule Kingdom, with a full JRPG-style adventure mode. Built with secure coding practices and a modern React ecosystem (React 18, Vite 4, React Router 6).
+A modern React-based web application featuring the dark creatures of Hyrule Kingdom, with a full JRPG-style adventure mode. Built with secure coding practices and a modern React ecosystem (React 19, Vite 8, React Router 8).
 
 ## 🎯 Features
 
@@ -64,7 +64,7 @@ This application demonstrates security best practices:
 ## 🏰 Quick Start
 
 ### Prerequisites
-- Node.js (v20.19 or higher, or v22.12+)
+- Node.js v22.22 or higher
 - npm
 
 ### Installation & Development
@@ -108,7 +108,7 @@ This application demonstrates security best practices:
 The app is automatically deployed to GitHub Pages using GitHub Actions whenever changes are pushed to the main branch. 
 
 The deployment process:
-- Builds the application on multiple platforms (Ubuntu, Windows) with different Node.js versions (20, 22)
+- Builds the application on multiple platforms (Ubuntu and Windows) with Node.js 22
 - Installs dependencies
 - Builds the application from the `src/` folder
 - Creates artifact attestations for security and provenance
@@ -219,8 +219,8 @@ This will create a `dist/` folder with optimized production files ready for depl
 ## 🛠️ Technical Details
 
 ### Tech Stack
-- **Frontend**: React 18 with hooks, React Router v6 for navigation
-- **Build Tool**: Vite 5.x (fast HMR, optimized production builds)
+- **Frontend**: React 19 with hooks, React Router v8 for navigation
+- **Build Tool**: Vite 8.x (fast HMR, optimized production builds)
 - **Backend**: Node.js with Express 5
 - **Database**: SQLite3 with secure parameterized queries
 - **Styling**: Modern CSS with Zelda theme, responsive design

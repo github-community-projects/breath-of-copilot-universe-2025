@@ -20,15 +20,15 @@
   "author": "GitHub Copilot",
   "license": "MIT",
   "engines": {
-    "node": "^20.19.0 || >=22.12.0"
+    "node": ">=22.22.0"
   },
   "dependencies": {
-    "body-parser": "^2.2.2",
+    "body-parser": "^2.3.0",
     "express": "^5.2.1",
     "express-rate-limit": "^8.5.2",
-    "react": "^19.2.6",
+    "react": "^19.2.7",
     "react-dom": "^19.2.7",
-    "react-router-dom": "^7.17.0",
+    "react-router": "^8.3.0",
     "sqlite3": "^6.0.1"
   },
   "overrides": {
@@ -38,11 +38,10 @@
   "devDependencies": {
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^6.0.2",
-    "concurrently": "^10.0.3",
+    "@vitejs/plugin-react": "^6.0.3",
+    "concurrently": "^10.0.4",
     "cpy-cli": "^7.0.0",
-    "eslint": "^9.39.4",
-    "eslint-plugin-react": "^7.37.5",
+    "eslint": "^10.6.0",
     "eslint-plugin-react-hooks": "^7.1.1",
     "nodemon": "^3.1.14",
     "rimraf": "^6.1.3",
